@@ -9,3 +9,7 @@ Mark Zottner will present in EMEA Tech Exchange.
 Zohaib Khan will present at NA Tech Exchange.
 +
 Session will not be presented in APAC Tech Exchange.
+
+. link:https://www.youtube.com/watch?v=YP6wJXblyWM[Lowering the risk of Monolith to Microservices]
+.. Duration:  1 hour
+.. Speakers:  Christian Posta in NA;  TBD for other regions
