@@ -1,0 +1,11 @@
+= Brownfield Migration Multi-Product Lab
+
+== Related session(s) at RHT Tech Exchange
+
+. link:https://www.youtube.com/watch?v=N2vuiQszvsI[Automated legacy app containerization with RHT OCP and RHT AMT]
++
+Mark Zottner will present in EMEA Tech Exchange.
++
+Zohaib Khan will present at NA Tech Exchange.
++
+Session will not be presented in APAC Tech Exchange.
