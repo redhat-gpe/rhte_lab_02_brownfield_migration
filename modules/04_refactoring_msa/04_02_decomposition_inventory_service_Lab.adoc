@@ -1,0 +1,301 @@
+:scrollbar:
+:data-uri:
+:toc2:
+:linkattrs:
+
+== Application Decomposition to Create Inventory Service Lab
+
+In this lab, you decompose the `monolith-coolstore` application and create the `inventory-service` application. This service exposes the inventory information through a REST API.
+
+You use JBoss EAP 7.1 to deploy the `inventory-service` WAR artifact.
+
+As in the `monolith-coolstore` application, persistence is provided through a PostgreSQL database.
+
+The `inventory-service` application consists of a single Maven project and is orchestrated into three different layers:
+
+* Persistence layer
+* Service layer
+* REST layer
+
+The lab assets include an `etc/eap71-postgresql-persistent-s2i.json` OpenShift template, which provides dependencies for JBoss EAP 7.1 and PostgreSQL.
+
+.Goal
+* Decompose the `monolith-coolstore` application to create the `inventory-service` application
+
+.Prerequisites
+* Import of `modern-coolstore/inventory-service` project code into JBoss Developer Studio
+* Access to an OpenShift environment with the required projects set up
++
+NOTE: Refer to instructions in the previous labs to complete either of these prerequisites.
+
+:numbered:
+
+== Review Inventory Service Code
+
+=== Review Source Code and PostgreSQL S2I Template
+
+. Review the `inventory-service` code.
++
+****
+*Questions*:
+
+* What are the names of the datasource and persistence unit used?
+* What annotations are used to make a model class a JPA entity?
+* How are persistent methods exposed to REST APIs?
+* What is the REST endpoint exposed by the service?
+* What Maven dependencies are used for persistence, CDI, and JAX-RS?
+****
+
+. Review the `eap71-postgresql-persistent-s2i.json` template present in the lab assets:
++
+[source,sh]
+----
+cat ~/labs/modern-coolstore/etc/eap71-postgresql-persistent-s2i.json
+----
++
+****
+*Questions*:
+
+* What version of PostgreSQL is used?
+* What parameters are defined?
+* Is a PVC defined?
+* What other OpenShift objects are defined?
+****
+
+=== Review API Documentation with Swagger
+
+Because you are completing a migration from preexisting code in this lab environment, you follow a _bottom-up_ approach for the Swagger implementation. A _top-down_ approach is more suitable for initial code implementation.
+
+Documentation helps consumers of the service know which services are available, what the signatures are, and the expected input. Swagger helps automate this documentation process, and manual documentation is not required.
+
+. Review the `pom.xml` file to study the `swagger-jaxrs`, `swagger-ui`, and `javaee-web-api` Swagger dependencies.
+. Review `~/labs/modern-coolstore/inventory-service/src/main/java/com/redhat/coolstore/inventory/rest/SwaggerListener.java` to study the configuration and initialization for Swagger.
+* `BeanConfig` is used to define various properties for Swagger.
+. Review `~/labs/modern-coolstore/inventory-service/src/main/java/com/redhat/coolstore/inventory/RestApplication.java` to study the setup for Swagger.
+
+== Add Project to Gogs
+
+. In the `inventory-service` directory, add a new Git remote, referencing the URL of the Git repository created in a previous lab:
++
+[source,sh]
+----
+$ cd ~/labs/modern-coolstore/inventory-service/
+
+$ git remote add gogs http://amm-gogs.apps.$GUID.openshift.opentlc.com/gogs/inventory-service.git
+----
+
+. Push the code to your Gogs repository:
++
+[source,sh]
+----
+$ git push gogs master
+----
+* Use your registered credentials for Gogs.
+
+== Deploy on OpenShift
+
+=== Prepare for Deployment
+
+. Create a new project for the `inventory-service` application on OpenShift:
++
+[source,sh]
+----
+$ oc new-project $USER-modern-inventory-service
+----
+
+. Review the `ClusterQuota` and `LimitRange` objects.
+
+=== Deploy Application
+
+For the application deployment, you use the `~/labs/modern-coolstore/etc/eap71-postgresql-persistent-s2i.json` template. The template provides OpenShift descriptors for PostgreSQL and JBoss EAP.
+
+. Review the template parameters that provide customized configuration and define the following database and application template parameters:
+
+* Database parameters:
++
+[source,sh]
+----
+$ export DB_JNDI=java:jboss/datasources/InventoryDS
+$ export DB_DATABASE=inventorydb
+$ export DB_USERNAME=jboss
+$ export DB_PASSWORD=jboss
+----
+
+* Application parameters:
++
+[source,sh]
+----
+$ export APPLICATION_NAME=inventory-service
+$ export SOURCE_REPOSITORY_REF=master
+$ export CONTEXT_DIR=modern-coolstore/inventory-service
+$ export SOURCE_REPOSITORY=http://amm-gogs.xyz-gogs.svc.cluster.local:3000/<gogs-user>/appmod-migration
+----
++
+NOTE: For inter-pod DNS resolution, you use the OpenShift nomenclature for the service URL (`<service>.<pod_namespace>.svc.cluster.local:port`).
+
+. Create OpenShift resources using the `eap71-postgresql-persistent-s2i.json` template:
++
+[source,sh]
+----
+$ oc process -f ../etc/eap71-postgresql-persistent-s2i.json -pAPPLICATION_NAME=$APPLICATION_NAME \
+ -pSOURCE_REPOSITORY_URL=$SOURCE_REPOSITORY -pSOURCE_REPOSITORY_REF=$SOURCE_REPOSITORY_REF \
+ -pCONTEXT_DIR=$CONTEXT_DIR -pDB_USERNAME=$DB_USERNAME -pDB_PASSWORD=$DB_PASSWORD \
+ -pDB_JNDI=$DB_JNDI -pDB_DATABASE=$DB_DATABASE | oc create -f -
+----
+
+. Confirm that the command creates a PostgreSQL pod and a builder pod for the `inventory-service`:
++
+[source,sh]
+----
+$ oc get pods
+----
++
+.Sample Output
+[source,text]
+----
+NAME                                   READY     STATUS      RESTARTS   AGE
+inventory-service-1-build              0/1       Completed   0          8m
+inventory-service-postgresql-1-tclg7   1/1       Running     0          8m
+----
+
+. Verify that the database is created and already populated with seed data.
+* To verify the seed data, refer to the section where you deployed the `postgresql` image to OpenShift in the _Monolith CoolStore Lab_.
+
+. After a few minutes, examine the build logs to determine whether the application built successfully:
++
+[source,sh]
+----
+$ oc  logs -f inventory-service-1-build
+----
++
+.Sample Output
+[source,text]
+----
+[INFO] Downloading: https://repo1.maven.org/maven2/org/apache/maven/shared/maven-filtering/1.0-beta-2/maven-filtering-1.0-beta-2.jar
+[INFO] Downloaded: https://repo1.maven.org/maven2/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar (25 KB at 34.2 KB/sec)
+[INFO] Downloaded: https://repo1.maven.org/maven2/org/apache/maven/maven-archiver/2.4.1/maven-archiver-2.4.1.jar (20 KB at 24.3 KB/sec)
+[INFO] Downloaded: https://repo1.maven.org/maven2/com/thoughtworks/xstream/xstream/1.3.1/xstream-1.3.1.jar (422 KB at 421.3 KB/sec)
+[INFO] Downloaded: https://repo1.maven.org/maven2/org/codehaus/plexus/plexus-archiver/1.2/plexus-archiver-1.2.jar (178 KB at 153.6 KB/sec)
+[INFO] Downloaded: https://repo1.maven.org/maven2/org/apache/maven/shared/maven-filtering/1.0-beta-2/maven-filtering-1.0-beta-2.jar (33 KB at 25.3 KB/sec)
+[INFO] Packaging webapp
+[INFO] Assembling webapp [inventory-service] in [/tmp/src/target/inventory-service-1.0.0-SNAPSHOT]
+[INFO] Processing war project
+[INFO] Webapp assembled in [54 msecs]
+[INFO] Building war: /tmp/src/deployments/ROOT.war
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 05:34 min
+[INFO] Finished at: 2018-02-27T13:16:22+00:00
+[INFO] Final Memory: 21M/108M
+[INFO] ------------------------------------------------------------------------
+Copying all war artifacts from /tmp/src/target directory into /opt/eap/standalone/deployments for later deployment...
+Copying all ear artifacts from /tmp/src/target directory into /opt/eap/standalone/deployments for later deployment...
+Copying all rar artifacts from /tmp/src/target directory into /opt/eap/standalone/deployments for later deployment...
+Copying all jar artifacts from /tmp/src/target directory into /opt/eap/standalone/deployments for later deployment...
+Copying all war artifacts from /tmp/src/deployments directory into /opt/eap/standalone/deployments for later deployment...
+'/tmp/src/deployments/ROOT.war' -> '/opt/eap/standalone/deployments/ROOT.war'
+Copying all ear artifacts from /tmp/src/deployments directory into /opt/eap/standalone/deployments for later deployment...
+Copying all rar artifacts from /tmp/src/deployments directory into /opt/eap/standalone/deployments for later deployment...
+Copying all jar artifacts from /tmp/src/deployments directory into /opt/eap/standalone/deployments for later deployment...
+Pushing image 172.30.1.1:5000/inventory-service/inventory-service:latest ...
+Pushed 0/7 layers, 2% complete
+Pushed 1/7 layers, 20% complete
+Pushed 2/7 layers, 39% complete
+Pushed 3/7 layers, 52% complete
+Pushed 4/7 layers, 75% complete
+Pushed 5/7 layers, 93% complete
+Pushed 6/7 layers, 95% complete
+Pushed 7/7 layers, 100% complete
+Push successful
+
+----
+* The application may take a while to build, as it needs to download the Maven dependencies over the Internet.
+
+. After the build completes, verify that the `inventory-service` pod is created.
+
+. Review the application pod logs to make sure that the datasource and application have deployed successfully:
++
+[source,sh]
+----
+$ oc logs -f inventory-service-1-gwh3s
+----
++
+.Sample Output
+[source,text]
+----
+13:16:51,140 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-7) WFLYJCA0098: Bound non-transactional data source: java:jboss/datasources/InventoryDSObjectStore
+13:16:51,509 INFO  [org.jboss.as.ejb3] (MSC service thread 1-1) WFLYEJB0493: EJB subsystem suspension complete
+13:16:51,525 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-5) WFLYJCA0001: Bound data source [java:jboss/datasources/InventoryDS]
+----
++
+[source,text]
+----
+13:17:00,962 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 69) WFLYUT0021: Registered web context: '/' for server 'default-server'
+13:17:00,977 INFO  [org.jboss.as.server] (ServerService Thread Pool -- 39) WFLYSRV0010: Deployed "ROOT.war" (runtime-name : "ROOT.war")
+13:17:00,979 INFO  [org.jboss.as.server] (ServerService Thread Pool -- 39) WFLYSRV0010: Deployed "activemq-rar.rar" (runtime-name : "activemq-rar.rar")
+13:17:01,051 INFO  [org.jboss.as.server] (Controller Boot Thread) WFLYSRV0212: Resuming server
+13:17:01,054 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0060: Http management interface listening on http://127.0.0.1:9990/management
+13:17:01,054 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0054: Admin console is not enabled
+13:17:01,055 INFO  [org.jboss.as] (Controller Boot Thread) WFLYSRV0025: JBoss EAP 7.1.0.GA (WildFly Core 3.0.10.Final-redhat-1) started in 14137ms - Started 571 of 860 services (488 services are lazy, passive or on-demand)
+
+----
+
+== Use OpenShift Quota and Limits Resources
+
+. Review the resources defined in the deployment configuration for the `postgresql` application:
++
+[source,sh]
+----
+$ oc get dc inventory-service-postgresql  -o jsonpath='{ .spec.template.spec.containers[0].resources }'
+----
++
+.Sample Output
+[source,text]
+----
+Output: map[]
+----
+
+. Review the resources defined in the deployment configuration for the `inventory-service` application:
++
+[source,sh]
+----
+$ oc get dc inventory-service  -o jsonpath='{ .spec.template.spec.containers[0].resources }'
+----
++
+.Sample Output
+[source,text]
+----
+Output: map[limits:map[memory:1Gi]]
+----
+
+. Review the cluster quota used.
++
+****
+*Question*:
+
+* How are values of `limits.cpu`, `requests.memory`, and `limits.memory` calculated?
+****
+
+== Test Solution
+
+. Determine the URL of the application and set an environment variable with this route:
++
+[source,sh]
+----
+$ export MODERN_INVENTORY_URL=http://$(oc get route inventory-service  -o template --template='{{.spec.host}}')
+----
+
+. Retrieve the API documentation:
++
+[source,sh]
+----
+$ curl -X GET "$MODERN_INVENTORY_URL/api/swagger.json | jq
+----
+
+. Retrieve the inventory for a product:
++
+[source,sh]
+----
+$ curl -X GET "$MODERN_INVENTORY_URL/api/inventory/444435"
+----
