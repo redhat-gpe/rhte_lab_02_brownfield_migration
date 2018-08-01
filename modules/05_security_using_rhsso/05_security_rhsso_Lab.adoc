@@ -169,7 +169,7 @@ WildFly Swarm comes with a Red Hat SSO/Keycloak fraction that enables the applic
 
 There are essentially two ways to configure secure endpoints--through a `web.xml` descriptor or by configuring the secure endpoints in the Swarm configuration file. In this section, you configure the secure endpoints using the second method and then produce a Keycloak configuration file.
 
-. In the POM file of the inventory service project, add the `org.wildfly.swarm:keycloak` dependency.
+. In the POM file of the catalog service project, add the `org.wildfly.swarm:keycloak` dependency.
 
 . In the POM file of the project, add the following line to the `<build>` section:
 +
@@ -346,7 +346,7 @@ Response response = target.request(MediaType.APPLICATION_JSON)
 
 == Deploy and Test Secured WildFly Swarm Application
 
-You deployed the catalog service on OpenShift in previous labs. In this section, you deploy and test the secured version of the inventory service.
+You deployed the catalog service on OpenShift in previous labs. In this section, you deploy and test the secured version of the catalog service.
 
 === Deploy Postgresql
 . Deploy PostgreSQL using the `postgresql` image from the OpenShift namespace:
@@ -359,7 +359,7 @@ oc new-app postgresql-persistent -e POSTGRESQL_USER=jboss -e POSTGRESQL_PASSWORD
 
 === Configure Application to Use Keycloak
 
-. Add the secure endpoint configuration to the `catalog-service` ConfigMap in the OpenShift inventory service project.
+. Add the secure endpoint configuration to the `catalog-service` ConfigMap in the OpenShift catalog service project.
 . In the `etc` folder of the project, create a file called `keycloak.json` with the following contents:
 +
 [source,json]
@@ -438,7 +438,7 @@ $ mvn clean fabric8:deploy -Popenshift -DskipTests=true -Dfabric8.namespace=$SEC
 +
 [source,text]
 ----
-$ export CATALOG_URL=http://$(oc get route inventory-service -n $SECURE_CATALOG_PRJ -o template --template='{{.spec.host}}')
+$ export CATALOG_URL=http://$(oc get route catalog-service -n $SECURE_CATALOG_PRJ -o template --template='{{.spec.host}}')
 $ curl -X GET "$CATALOG_URL/catalog/products
 ----
 * Expect to receive `Unauthorized` in the response:
@@ -449,7 +449,7 @@ $ curl -X GET "$CATALOG_URL/catalog/products
 <html><head><title>Error</title></head><body>Unauthorized</body></html>
 ----
 . Obtain a token from the Red Hat SSO server as explained in the paragraph on installing the Red Hat SSO server.
-. Test the inventory service with a valid authentication token:
+. Test the catalog service with a valid authentication token:
 +
 [source,text]
 ----
@@ -499,5 +499,6 @@ $ curl -X GET -H "Authorization: Bearer $TKN" "$CATALOG_URL/catalog/products"
   }
 ]
 ----
+
 
 Congratulations, you reached the end of the lab.
