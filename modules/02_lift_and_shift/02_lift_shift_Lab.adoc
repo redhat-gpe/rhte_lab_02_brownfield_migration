@@ -8,8 +8,8 @@
 In this lab you will deploy the `monolith-coolstore` application on Openshift.
 
 .Prerequisites
-* Import of `monolith-coolstore` project code into JBoss Developer Studio
 * Access to an OpenShift environment with the required projects set up
+* Access to client VM
 
 == Deployment on Openshift
 
@@ -19,8 +19,11 @@ The deployment of the application will be a binary source build using `postgresq
 
 image:images/coolstore-monolith-ocp.png[]
 
+=== Login to Client VM
+* TODO
 
 === Deployment of PostgreSQL on Openshift.
+. The client VM comes with support for `oc-cli` `3.9`.
 . Create a openshift project for the deployment of monolith-coolstore.
 +
 [source,sh]
@@ -77,7 +80,7 @@ sh-4.2$ exit
 ----
 
 === Deployment of Application
-
+. You use Binary build for application deployment.
 . Verify the presence of `jboss-eap64-openshift` in namespace `openshift`
 +
 [source,sh]
