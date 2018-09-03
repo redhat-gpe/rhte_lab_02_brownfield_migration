@@ -12,10 +12,39 @@ In this lab you will study the `monolith-coolstore` application source code and 
 
 .Prerequisites
 * Import of `monolith-coolstore` project code into JBoss Developer Studio
-* Access to an OpenShift environment with the required projects set up
+* Access to client environment VM which comes preloaded with following tools:
+** `oc` CLI tool, version 3.9
+** `git`
+** java JDK 1.8
+** vim
+** maven 3.5.+
+** `curl`
+** `jq`
+** `openssl`
+** postgresql 9.5
 
 == Overview
-=== Business Layer
+=== Client VM
+==== Clone Source Code
+* To help you get started, the client vm comes preloaded with lab assets needed across various labs in the course.
+* The lab assets may be found at :
++
+[source,sh]
+----
+cd  ~/labs/
+----
+** The lab assets have been cloned through https://github.com/gpe-mw-training/app-modernization-migration-lab.git[git link]
+* Review the contents of `~/labs` folder
++
+[source,sh]
+----
+drwxrwxr-x 7 4096 Aug 24 15:29 modern-coolstore
+drwxrwxr-x 6 4096 Jun 19 16:47 monolith-coolstore
+-rw-rw-r-- 1   43 May 31 17:14 README.md
+drwxrwxr-x 2 4096 Jul 27 14:40 rhamt
+----
+
+=== Application Business Layer
 The business logic of application consists of following modules:
 
 * `Catalog Service`: provides information about the products sold in the Coolstore web shop. This information includes name, description and price.
@@ -39,10 +68,17 @@ The application consists of multiple maven modules organised as:-
 *** `@ProprietaryServlet`: This is the equivalent of the Java EE 6 @WebServlet annotation
 *** `@ProprietaryInitParam`: This is the equivalent of the Java EE 6 @WebInitParam annotation.
 
+image::images/monolith-app.jpg[]
+
 == Solution Development
 === Overview of the project pom.xml
+
 . Utilizing the https://maven.apache.org/guides/mini/guide-multiple-modules.html[Maven Reactor] mechanism, the Maven projects have been aggregated.
 ** Review the parent `pom.xml` and take note of `modules` section
+
+NOTE: The traditional applications usually comprised of multi-module maven projects as dependencies.
+
+
 . For child project `monolith-coolstore-service` review the `pom.xml` and take note of the following sections:
 ** `dependencies` : cdi, jpa, swagger, custom-annotations.
 ** `plugin`: maven-war-plugin
@@ -95,33 +131,21 @@ The service layer exposes the persistence methods to the REST layer.
 * *Question*: What is the use of annotations `@RunAsClient` & `@Deployment` ?
 * *Question*: For mocks, where is the alternative class defined ?
 
-==== Download and Install JBoss EAP 6.4
+==== Configure EAP for Unit tests
 
-The unit tests require a local installation of JBoss EAP 6.4.  In the following steps, you will download and install JBoss EAP. Then run the unit tests.
+The unit tests require a local installation of https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/6.4/html/getting_started_guide/sect-download_and_install_jboss_eap_using_the_graphical_installation_program[JBoss EAP 6.4].  The client VM comes preloaded with local copy of JBoss EAP 6.4 server at location `/opt/eap`.
 
-To run unit-tests you will run the `jboss-eap` locally on your machine. The path for which can be configured through `arquillian.xml`
+To run unit-tests you will run the `jboss-eap` locally on client VM
 
-. Follow the directions at https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/6.4/html/getting_started_guide/sect-download_and_install_jboss_eap_using_the_graphical_installation_program[this link to download and install JBoss EAP 6.4.]
-
-. Move back to JBDS and update the configuration file, with the local of your JBoss EAP installation
-
-.. Edit file: monolith-coolstore-service/src/test/resources/arquillian.xml
-
-.. Replace
+. Configure the path in `arquillian.xml`
+. Review file: monolith-coolstore-service/src/test/resources/arquillian.xml
 +
 [source,xml]
 ----
-      <property name="jbossHome">/home/jasingh/EAP/jboss-eap-6.4</property>
+      <property name="jbossHome">/opt/eap</property>
 ----
 
-.. With
-+
-[source,xml]
-----
-      <property name="jbossHome">${LOCATION-OF-YOUR-JBOSS-EAP-INSTALL-DIRECTORY}</property>
-----
-
-NOTE: Be sure to update this with the location of your JBoss EAP installation directory.
+NOTE: Ensure the path points to local location of your JBoss EAP installation directory.
 
 ==== Run Unit Tests
 
@@ -171,13 +195,19 @@ Tests run: 14, Failures: 0, Errors: 0, Skipped: 0
 
 == Deployment of Application
 
+=== DataBase Deployment
+* The client VM comes preinstalled with `postgresql` with properties as
+** Username: jboss
+** Password: jboss
+** database: monolith
+
 === Database Configuration
 . In EAP server installation directory `standalone/configuration/standalone.xml` verify the `datasource` is defined, else create a `datasource`. Add below snippet in `subsystem datasources`:
 +
 [source,xml]
 ----
 <datasource jndi-name="java:jboss/datasources/CoolstoreDS" pool-name="CoolstoreDS" enabled="true" use-java-context="true">
-    <connection-url>jdbc:postgresql://172.17.0.2:5432/monolith</connection-url>
+    <connection-url>jdbc:postgresql://127.0.0.1:5432/monolith</connection-url>
     <driver>postgresql</driver>
     <security>
         <user-name>jboss</user-name>
@@ -216,6 +246,8 @@ Tests run: 14, Failures: 0, Errors: 0, Skipped: 0
 $ cd <EAP_INSTALL_DIR>
 $ sh bin/standalone.sh
 ----
+
+NOTE: For the client vm, there are limited resources, thus don't run it on clientvm. The instructor will showcase on his system.
 
 === Application Deployment
 . Copy the `deployments/ROOT.war` to `EAP_INSTALL_DIR/standalone/deployments/`
