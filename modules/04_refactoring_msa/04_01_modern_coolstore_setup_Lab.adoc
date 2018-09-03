@@ -94,7 +94,8 @@ cat ~/labs/modern-coolstore/etc/gogs-persistent-template.yaml
 +
 [source,sh]
 ----
-$ oc new-project $USER-gogs
+export GOGS_PROJECT= $USER-gogs
+$ oc new-project $GOGS_PROJECT
 ----
 
 . Change to the `modern-coolstore` directory and create a new application called `amm-gogs` by using the `gogs-persistent-template.yaml` template:
@@ -103,7 +104,7 @@ $ oc new-project $USER-gogs
 ----
 $ cd ~/labs/modern-coolstore/
 
-$ oc new-app -f etc/gogs-persistent-template.yaml -p APPLICATION_NAME=amm-gogs --param=HOSTNAME=amm-gogs.apps.$GUID.openshift.opentlc.com
+$ oc new-app -f etc/gogs-persistent-template.yaml -p APPLICATION_NAME=amm-gogs --param=HOSTNAME=amm-gogs-$GOGS_PROJECT.apps.$GUID.openshift.opentlc.com
 ----
 
 . Review the OpenShift resource objects created:

@@ -81,7 +81,7 @@ Documentation helps consumers of the service know which services are available, 
 ----
 $ cd ~/labs/modern-coolstore/inventory-service/
 
-$ git remote add gogs http://amm-gogs.apps.$GUID.openshift.opentlc.com/gogs/inventory-service.git
+$ git remote add gogs http://amm-gogs-$GOGS_PROJECT.apps.$GUID.openshift.opentlc.com/gogs/inventory-service.git
 ----
 
 . Push the code to your Gogs repository:
