@@ -62,7 +62,7 @@ $ oc describe AppliedClusterResourceQuota
 ----
 Resource    Used  Hard
 --------    ----  ----
-configmaps    0 5
+configmaps    0 15
 limits.cpu    1 10
 limits.memory   3Gi 12Gi
 persistentvolumeclaims  0 10
@@ -70,8 +70,8 @@ pods      2 15
 requests.cpu    100m  5
 requests.memory   512Mi 4Gi
 requests.storage  0 50Gi
-secrets     17  20
-services    2 10
+secrets     17  100
+services    2 20
 ----
 
 == Create Application
@@ -220,7 +220,7 @@ $ oc describe AppliedClusterResourceQuota
 ----
 Resource		Used	Hard
 --------		----	----
-configmaps		0	5
+configmaps		0	15
 limits.cpu		1	10
 limits.memory		350Mi	12Gi
 persistentvolumeclaims	0	10

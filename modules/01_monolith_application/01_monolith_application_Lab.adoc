@@ -134,7 +134,9 @@ The service layer exposes the persistence methods to the REST layer.
 
 ==== Configure EAP for Unit tests
 
-The unit tests require a local installation of https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/6.4/html/getting_started_guide/sect-download_and_install_jboss_eap_using_the_graphical_installation_program[JBoss EAP 6.4].  The client VM comes preloaded with local copy of JBoss EAP 6.4 server at location `/opt/eap`.
+The unit tests require a local installation of https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/6.4/html/getting_started_guide/sect-download_and_install_jboss_eap_using_the_graphical_installation_program[JBoss EAP 6.4].
+
+NOTE: The client VM comes doesnot comes with a preloaded with local copy of JBoss EAP 6.4 server. Thus you will be unable to run unit-tests, for people who have local confiuration available may run below steps:
 
 To run unit-tests you will run the `jboss-eap` locally on client VM
 
@@ -197,7 +199,11 @@ Tests run: 14, Failures: 0, Errors: 0, Skipped: 0
 == Deployment of Application
 
 === DataBase Deployment
-* The client VM comes preinstalled with `postgresql` with properties as
+* You need `postgresql` running either locally or cloud.
+
+NOTE: At present the `clientVM` doesnot has postgresql installed.
+
+* Assuming you have access to `postgresql` on some environment, we define the instructions on setting up application when the database has properties as:
 ** Username: jboss
 ** Password: jboss
 ** database: monolith
