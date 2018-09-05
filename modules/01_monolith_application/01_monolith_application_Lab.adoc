@@ -17,6 +17,7 @@ In this lab you will study the `monolith-coolstore` application source code and 
 ** `git`
 ** java JDK 1.8
 ** vim
+** rhamt 4.1.0.Final
 ** maven 3.5.+
 ** `curl`
 ** `jq`
