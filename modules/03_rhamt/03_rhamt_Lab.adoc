@@ -98,7 +98,7 @@ WARNING: The tool needs minimum 4GB RAM. The client VM might not have enough res
 * `packages`: list of packages to be evaluated, for lab use-case we use `com.redhat.coolstore`
 
 . Thus For the labs, the output of above command output is provided as part of file system.
-. The reports may be viewed by accessing the URL `ip:8001\rhamt-reports`. The lab uses `httpd` for rendering the reports.
+. The reports may be viewed by accessing the URL `ip:port/rhamt-reports`. The lab uses `httpd` for rendering the reports.
 
 . In the logs check the rules directory used:
 +
@@ -185,7 +185,7 @@ $ mvn clean package -DskipTests
 . Again run the `rhamt-cli` tool to check if the changes have been made.
 * Follow the steps defined in <<Testing the Rule>>
 
-. Open the reports in browser to verify the claim.
+. View the reports in browser by opening the URL `ip:port/rhamt-reports-post-tool`:
 
 .. On the landing page, confirm that the project ROOT.war has *0 story points*.
 +
