@@ -24,7 +24,6 @@ Provision a `Gogs` server to help perform S2I builds
 
 .Prerequisites
 * Access to an OpenShift environment with the required projects set up
-* Access to impersonate the `admin` user
 
 :numbered:
 
@@ -90,11 +89,15 @@ cat ~/labs/modern-coolstore/etc/gogs-persistent-template.yaml
 * What limits and resources are defined?
 ****
 
+NOTE: The lab environment comes pre-provisoned with gogs server. Gogs support multi-tenancy thus instead having each user come up with his own `Gogs` server, the user may use existing lab server. Steps 1 - 5 talk on provisioning your own `Gogs` server, thus candidates may directly move on to <<Gogs User Registration>>.
+
+TIP: The existing `Gogs` URL is `http://amm-gogs-rhte-gogs.apps.$REGION.openshift.opentlc.com/` where $REGION will be provided by the lab instructor.
+
 . Create an OpenShift project for Gogs, using your OPENTLC username for "$USER" as a prefix in the name:
 +
 [source,sh]
 ----
-export GOGS_PROJECT= $USER-gogs
+export GOGS_PROJECT=$USER-gogs
 $ oc new-project $GOGS_PROJECT
 ----
 
@@ -130,9 +133,11 @@ amm-gogs-postgresql-1-psswj   1/1       Running   0          6m
 $ oc get routes
 ----
 
-. Register a new user in the Gogs application.
+=== Gogs User Registration
 
-. Log in to the Gogs application with the registered user and create a new repository named `inventory-service`:
+. Open the `Gogs` URL in the browser.
+. Register a new user in the Gogs application by supplying in the valid details.
+. Log in to the Gogs application with the registered user and create a new repository named `rhte-brownfield-app-migration` by clicking on to the `+` sign on `My Repositories` section.
 +
 image::images/gogs-create-repo.png[]
 

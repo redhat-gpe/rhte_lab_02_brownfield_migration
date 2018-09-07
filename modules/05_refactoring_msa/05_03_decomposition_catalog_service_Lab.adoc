@@ -13,7 +13,8 @@ The `catalog-service` application consists of a single Maven project that, like 
 * Decompose the `monolith-coolstore` application using Wildfly Swarm to create the `catalog-service` application
 
 .Prerequisites
-* Import of `modern-coolstore/catalog-service` project code into JBoss Developer Studio
+* Access to source code
+* Knowledge of Wildfly-Swarm
 * Access to an OpenShift environment with the required projects set up
 +
 NOTE: Refer to instructions in the previous labs to complete either of these prerequisites.
@@ -91,6 +92,31 @@ Swagger automatically builds elegant and interactive API documentation for consu
 * `@API`: Marks the class as a Swagger resource.
 * `@ApiOperation`: Describes the operation or typically an HTTP method against specific path.
 * `@ApiParam`: Adds additional metadata for operation parameters.
+
+== Unit Tests
+. Review the unit test cases defined
+. Execute the test-cases
++
+[source,sh]
+----
+$ mvn clean test
+----
+NOTE: In unit test logs you will see some warnings as shown below. These are Harmless error messages and can be ignored
++
+[source,text]
+----
+Failed downloading org/glassfish/javax.el-api/3.0.1.b08-redhat-1/javax.el-api-3.0.1.b08-redhat-1.pom from https://repository.jboss.org/nexus/content/groups/public/. Reason:
+org.eclipse.aether.transfer.ArtifactNotFoundException: Could not find artifact org.glassfish:javax.el-api:pom:3.0.1.b08-redhat-1 in jboss-public-repository-group (https://repository.jboss.org/nexus/content/groups/public/)
+Failed downloading org/glassfish/javax.el-api/3.0.1.b08-redhat-1/javax.el-api-3.0.1.b08-redhat-1.pom from http://repo.gradle.org/gradle/libs-releases-local/. Reason:
+org.eclipse.aether.transfer.ArtifactNotFoundException: Could not find artifact org.glassfish:javax.el-api:pom:3.0.1.b08-redhat-1 in gradle (http://repo.gradle.org/gradle/libs-releases-local)
+Failed downloading org/glassfish/javax.el-api/3.0.1.b08-redhat-1/javax.el-api-3.0.1.b08-redhat-1.pom from http://maven.repository.redhat.com/ga/. Reason:
+org.eclipse.aether.transfer.ArtifactNotFoundException: Could not find artifact org.glassfish:javax.el-api:pom:3.0.1.b08-redhat-1 in redhat-ga-repository (http://maven.repository.redhat.com/ga/)
+Failed downloading org/glassfish/javax.el-api/3.0.1.b08-redhat-1/javax.el-api-3.0.1.b08-redhat-1.pom from http://maven.repository.redhat.com/earlyaccess/all/. Reason:
+org.eclipse.aether.transfer.ArtifactNotFoundException: Could not find artifact org.glassfish:javax.el-api:pom:3.0.1.b08-redhat-1 in jboss-earlyaccess-repository (http://maven.repository.redhat.com/earlyaccess/all/)
+
+...
+----
+* The details of error messages can be found at https://access.redhat.com/documentation/en-us/red_hat_openshift_application_runtimes/1/html/red_hat_openshift_application_runtimes_release_notes/rn-runtime-components-wf-swarm#harmless_error_message_in_application_log_missing_literal_org_glassfish_javax_el_api_3_0_1_b08_redhat_1_literal[link^]
 
 == Deploy on OpenShift
 

@@ -23,7 +23,7 @@ The lab assets include an `etc/eap71-postgresql-persistent-s2i.json` OpenShift t
 * Decompose the `monolith-coolstore` application to create the `inventory-service` application
 
 .Prerequisites
-* Import of `modern-coolstore/inventory-service` project code into JBoss Developer Studio
+* Access to application source code
 * Access to an OpenShift environment with the required projects set up
 +
 NOTE: Refer to instructions in the previous labs to complete either of these prerequisites.
@@ -79,10 +79,11 @@ Documentation helps consumers of the service know which services are available, 
 +
 [source,sh]
 ----
-$ cd ~/labs/modern-coolstore/inventory-service/
+$ cd ~/labs/
 
-$ git remote add gogs http://amm-gogs-$GOGS_PROJECT.apps.$GUID.openshift.opentlc.com/gogs/inventory-service.git
+$ git remote add gogs http://amm-gogs-rhte-gogs.apps.$REGION.openshift.opentlc.com/$GOGS_USER/rhte-brownfield-app-migration.git
 ----
+** where $GOGS_USER=git registered user, follow steps from <<05_01_modern_coolstore_setup_Lab#Gogs User Registration,lab section>>
 
 . Push the code to your Gogs repository:
 +
@@ -90,7 +91,7 @@ $ git remote add gogs http://amm-gogs-$GOGS_PROJECT.apps.$GUID.openshift.opentlc
 ----
 $ git push gogs master
 ----
-* Use your registered credentials for Gogs.
+* Use your Gogs registered user credentials for git push.
 
 == Deploy on OpenShift
 
@@ -128,7 +129,7 @@ $ export DB_PASSWORD=jboss
 $ export APPLICATION_NAME=inventory-service
 $ export SOURCE_REPOSITORY_REF=master
 $ export CONTEXT_DIR=modern-coolstore/inventory-service
-$ export SOURCE_REPOSITORY=http://amm-gogs.xyz-gogs.svc.cluster.local:3000/<gogs-user>/appmod-migration
+$ export SOURCE_REPOSITORY=http://amm-gogs.rhte-gogs.svc.cluster.local:3000/$GOGS_USER/
 ----
 +
 NOTE: For inter-pod DNS resolution, you use the OpenShift nomenclature for the service URL (`<service>.<pod_namespace>.svc.cluster.local:port`).
@@ -137,6 +138,8 @@ NOTE: For inter-pod DNS resolution, you use the OpenShift nomenclature for the s
 +
 [source,sh]
 ----
+$ cd ~/labs/modern-coolstore/inventory-service/
+
 $ oc process -f ../etc/eap71-postgresql-persistent-s2i.json -pAPPLICATION_NAME=$APPLICATION_NAME \
  -pSOURCE_REPOSITORY_URL=$SOURCE_REPOSITORY -pSOURCE_REPOSITORY_REF=$SOURCE_REPOSITORY_REF \
  -pCONTEXT_DIR=$CONTEXT_DIR -pDB_USERNAME=$DB_USERNAME -pDB_PASSWORD=$DB_PASSWORD \
@@ -159,9 +162,9 @@ inventory-service-postgresql-1-tclg7   1/1       Running     0          8m
 ----
 
 . Verify that the database is created and already populated with seed data.
-* To verify the seed data, refer to the section where you deployed the `postgresql` image to OpenShift in the _Monolith CoolStore Lab_.
+* To verify the seed data, refer to the <<02_lift_shift_Lab#Deployment of PostgreSQL on Openshift,section>>.
 
-. After a few minutes, examine the build logs to determine whether the application built successfully:
+. The build takes sometime, examine the build logs to determine whether the application built successfully:
 +
 [source,sh]
 ----
