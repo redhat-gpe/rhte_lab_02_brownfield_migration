@@ -40,7 +40,6 @@ $ oc describe limits
 ----
 +
 .Sample Output
-[source,text]
 ----
 Type        Resource  Min   Max   Default Request  Default Limit  Max Limit/Request Ratio
 ----        --------  ---   ---   ---------------  -------------  -----------------------
@@ -63,7 +62,6 @@ $ oc get is -n openshift
 ----
 +
 .Sample Output
-[source,text]
 ----
 redhat-openjdk18-openshift            docker-registry.default.svc:5000/openshift/redhat-openjdk18-openshift
 ...
@@ -115,7 +113,6 @@ $ oc get pods
 ----
 +
 .Sample Output
-[source,text]
 ----
 NAME                          READY     STATUS    RESTARTS   AGE
 amm-gogs-1-2psgt              1/1       Running   0          6m
@@ -147,7 +144,6 @@ $  oc get dc amm-gogs-postgresql  -o jsonpath='{ .spec.template.spec.containers[
 ----
 +
 .Sample Output
-[source,text]
 ----
 map[limits:map[memory:512Mi] requests:map[memory:100Mi]]
 ----
@@ -159,7 +155,6 @@ $  oc get dc amm-gogs  -o jsonpath='{ .spec.template.spec.containers[0].resource
 ----
 +
 .Sample Output
-[source,text]
 ----
 map[]
 ----

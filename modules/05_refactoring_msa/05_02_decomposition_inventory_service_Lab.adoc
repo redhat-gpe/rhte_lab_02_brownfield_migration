@@ -151,7 +151,6 @@ $ oc get pods
 ----
 +
 .Sample Output
-[source,text]
 ----
 NAME                                   READY     STATUS      RESTARTS   AGE
 inventory-service-1-build              0/1       Completed   0          8m
@@ -169,7 +168,6 @@ $ oc  logs -f inventory-service-1-build
 ----
 +
 .Sample Output
-[source,text]
 ----
 [INFO] Downloading: https://repo1.maven.org/maven2/org/apache/maven/shared/maven-filtering/1.0-beta-2/maven-filtering-1.0-beta-2.jar
 [INFO] Downloaded: https://repo1.maven.org/maven2/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar (25 KB at 34.2 KB/sec)
@@ -222,14 +220,12 @@ $ oc logs -f inventory-service-1-gwh3s
 ----
 +
 .Sample Output
-[source,text]
 ----
 13:16:51,140 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-7) WFLYJCA0098: Bound non-transactional data source: java:jboss/datasources/InventoryDSObjectStore
 13:16:51,509 INFO  [org.jboss.as.ejb3] (MSC service thread 1-1) WFLYEJB0493: EJB subsystem suspension complete
 13:16:51,525 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-5) WFLYJCA0001: Bound data source [java:jboss/datasources/InventoryDS]
 ----
 +
-[source,text]
 ----
 13:17:00,962 INFO  [org.wildfly.extension.undertow] (ServerService Thread Pool -- 69) WFLYUT0021: Registered web context: '/' for server 'default-server'
 13:17:00,977 INFO  [org.jboss.as.server] (ServerService Thread Pool -- 39) WFLYSRV0010: Deployed "ROOT.war" (runtime-name : "ROOT.war")
@@ -251,7 +247,6 @@ $ oc get dc inventory-service-postgresql  -o jsonpath='{ .spec.template.spec.con
 ----
 +
 .Sample Output
-[source,text]
 ----
 Output: map[]
 ----
@@ -264,7 +259,6 @@ $ oc get dc inventory-service  -o jsonpath='{ .spec.template.spec.containers[0].
 ----
 +
 .Sample Output
-[source,text]
 ----
 Output: map[limits:map[memory:1Gi]]
 ----

@@ -82,7 +82,6 @@ $ ls -l target/cart-service*
 ----
 +
 .Sample Output
-[source,text]
 ----
 -rw-rw-r-- 1 25224532 Mar  1 15:44 cart-service-1.0.0-SNAPSHOT.jar
 -rw-rw-r-- 1    14966 Mar  1 15:44 cart-service-1.0.0-SNAPSHOT.jar.original
@@ -181,7 +180,6 @@ $ oc logs -f cart-service-1-dw7lf
 ----
 +
 .Sample Output
-[source,text]
 ----
 2018-03-05 07:15:21.314  INFO 1 --- [           main] trationDelegate$BeanPostProcessorChecker : Bean 'configurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$f6f4d8d4] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
   .   ____          _            __ _ _
@@ -232,7 +230,6 @@ $  oc get dc cart-service -o jsonpath='{ .spec.template.spec.containers[0].resou
 ----
 +
 .Sample Output
-[source,text]
 ----
 map[limits:map[cpu:1 memory:1Gi] requests:map[cpu:200m memory:200Mi]]
 ----

@@ -104,7 +104,6 @@ $ mvn clean package -DskipTests
 ----
 . The above command will create java war file at `~/lab/deployments`
 +
-[source,text]
 ----
 $ ls -l deployments
 -rw-rw-r-- 1 7597839 Jan 19 18:50 ROOT.war
@@ -118,7 +117,6 @@ $ oc start-build coolstore --from-file=deployments/ROOT.war --follow
 ----
 +
 .Sample Output
-[source,text]
 ----
 Uploading file "deployments/ROOT.war" as binary input for the build ...
 
@@ -211,7 +209,6 @@ $ curl -X GET "$OC_COOLSTORE_MONOLITH_URL/rest/swagger.json"
 ----
 +
 .Sample Output
-[source,text]
 ----
 {
   "swagger" : "2.0",
