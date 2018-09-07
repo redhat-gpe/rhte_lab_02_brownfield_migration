@@ -273,7 +273,6 @@ NOTE: For the client vm, there are limited resources, thus don't run it on clien
 ----
 . Check the server logs to verify the successfull deployment:
 +
-[source,text]
 ----
 Processing weld deployment ROOT.war
 09:59:16,634 INFO  [org.jboss.as.ejb3.deployment.processors.EjbJndiBindingsDeploymentUnitProcessor] (MSC service thread 1-7) JNDI bindings for session bean named PriceCalculationService in deployment unit deployment "ROOT.war" are as follows:
@@ -345,7 +344,6 @@ $ curl -X GET "$COOLSTORE_MONOLITH_URL/rest/swagger.json"
 ----
 +
 .Sample Output
-[source,text]
 ----
 {
   "swagger" : "2.0",

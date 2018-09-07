@@ -58,7 +58,6 @@ $ oc describe AppliedClusterResourceQuota
 ----
 +
 .Sample Output
-[source,text]
 ----
 Resource    Used  Hard
 --------    ----  ----
@@ -91,7 +90,6 @@ $ oc process -f  postgresql-ephemeral-template.json \
 ----
 +
 .Sample Output
-[source,text]
 ----
 secret "catalog-postgresql" created
 service "catalog-postgresql" created
@@ -108,7 +106,6 @@ $ oc get dc/catalog-postgresql  -o jsonpath='{ .spec.template.spec.containers[0]
 ----
 +
 .Sample Output
-[source,text]
 ----
 map[limits:map[memory:400Mi]]
 ----
@@ -121,7 +118,6 @@ $ oc get pods
 ----
 +
 .Sample Output
-[source,text]
 ----
 NAME                          READY     STATUS    RESTARTS   AGE
 catalog-postgresql-1-deploy   1/1       Running   0          1m
@@ -138,7 +134,6 @@ $ oc get events -w
 ----
 +
 .Sample Output
-[source,text]
 ----
 2018-05-01 11:08:00 +0530 IST   2018-05-01 11:07:57 +0530 IST   10        catalog-postgresql-1   ReplicationController             Warning   FailedCreate   replication-controller   Error creating: pods "catalog-postgresql-1-" is forbidden: [maximum memory usage per Container is 350Mi, but limit is 400Mi., maximum memory usage per Pod is 350Mi, but limit is 419430400.]
 ----
@@ -203,7 +198,6 @@ $ oc get pods
 ----
 +
 .Sample Output
-[source,text]
 ----
 catalog-postgresql-2-76d6m    1/1       Running   0          28s
 ----
@@ -216,7 +210,6 @@ $ oc describe AppliedClusterResourceQuota
 ----
 +
 .Sample Output
-[source,text]
 ----
 Resource		Used	Hard
 --------		----	----
