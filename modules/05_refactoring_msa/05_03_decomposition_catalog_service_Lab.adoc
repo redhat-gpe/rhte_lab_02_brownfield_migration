@@ -102,7 +102,7 @@ $ mvn clean test
 ----
 NOTE: In unit test logs you will see some warnings as shown below. These are Harmless error messages and can be ignored
 +
-[source,text]
+[source,sh]
 ----
 Failed downloading org/glassfish/javax.el-api/3.0.1.b08-redhat-1/javax.el-api-3.0.1.b08-redhat-1.pom from https://repository.jboss.org/nexus/content/groups/public/. Reason:
 org.eclipse.aether.transfer.ArtifactNotFoundException: Could not find artifact org.glassfish:javax.el-api:pom:3.0.1.b08-redhat-1 in jboss-public-repository-group (https://repository.jboss.org/nexus/content/groups/public/)
