@@ -81,7 +81,7 @@ Documentation helps consumers of the service know which services are available, 
 ----
 $ cd ~/labs/
 
-$ git remote add gogs http://amm-gogs-rhte-gogs.apps.$REGION.openshift.opentlc.com/$GOGS_USER/rhte-brownfield-app-migration.git
+$ git remote add gogs $ git remote add gogs http://gogs-rhte-migration.apps.40b3.rhte.opentlc.com/$GOGS_USER/rhte-brownfield-app-migration.git
 ----
 ** where $GOGS_USER=git registered user, follow steps from <<05_01_modern_coolstore_setup_Lab#Gogs User Registration,lab section>>
 
