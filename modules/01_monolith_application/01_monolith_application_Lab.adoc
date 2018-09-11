@@ -72,6 +72,14 @@ drwxrwxr-x 2 4096 Jul 27 14:40 rhamt
 ----
 $ oc login https://master.40b3.rhte.opentlc.com/ -uuser$LAB_USER -pr3dh4t1!
 ----
+* the lab comes with a openshift project pre-created. `rhte-mw-bfield-migration-constraints-user$ID`
+
+WARNING: Dont mess with this project until module04
+
+==== OCP Web Console
+. Open the https://master.40b3.rhte.opentlc.com/[link] in your browser.
+. Authenticate using credentials used in above section.
+
 
 === Application Business Layer
 The business logic of application consists of following modules:
