@@ -41,13 +41,13 @@ This lab environment provides an out-of-the-box OpenShift project. This project 
 ----
 $ oc projects
 ----
-* Expect to see a project named `appmod-migration-constraints-$GUID`, where "$GUID" is the unique identifier you received in the provisioning email for the labs.
+* Expect to see a project named `rhte-mw-bfield-migration-constraints-$GUID`, where "$GUID" is the unique identifier you received in the provisioning email for the labs.
 
-. Select the `appmod-migration-constraints-$GUID` project:
+. Select the `arhte-mw-bfield-migration-constraints-$GUID` project:
 +
 [source,sh]
 ----
-$ oc project $(oc projects | grep appmod-migration-constraints)
+$ oc project $(oc projects | grep rhte-mw-bfield-migration-constraints)
 ----
 
 . Examine the cluster quota defined for the environment:
@@ -153,7 +153,7 @@ image:images/events-details.png[]
 +
 [source,sh]
 ----
-$ oc get limits appmod-migration-constraints-$GUID-core-resource-limits -o yaml
+$ oc get limits rhte-mw-bfield-migration-constraints-$GUID-core-resource-limits -o yaml
 ----
 +
 .Sample Output
