@@ -30,7 +30,7 @@ In this lab you will study the `monolith-coolstore` application source code and 
 +
 [source,sh]
 ----
-$ export LAB_USER=<lab number from from last lab>
+$ export LAB_NUM=<lab number from from last lab>
 ----
 . SSH to the clientVM
 +
