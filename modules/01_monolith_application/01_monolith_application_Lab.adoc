@@ -54,7 +54,6 @@ $ git clone https://github.com/gpe-mw-training/app-modernization-migration-lab.g
 ----
 cd  ~/labs/
 ----
-** The lab assets have been cloned through https://github.com/gpe-mw-training/app-modernization-migration-lab.git[git link]
 * Review the contents of `~/labs` folder
 +
 [source,sh]
@@ -79,6 +78,8 @@ WARNING: Dont mess with this project until module04
 ==== OCP Web Console
 . Open the https://master.40b3.rhte.opentlc.com/[link] in your browser.
 . Authenticate using credentials used in above section.
+
+image::images/ocp_web_console.png[]
 
 
 === Application Business Layer
