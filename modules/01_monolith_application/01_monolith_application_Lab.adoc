@@ -26,8 +26,28 @@ In this lab you will study the `monolith-coolstore` application source code and 
 
 == Overview
 === Client VM
+. export the lab user id:
++
+[source,sh]
+----
+$ export LAB_USER=<lab number from from last lab>
+----
+. SSH to the clientVM
++
+[source,sh]
+----
+ssh lab-user@clientvm$LAB_NUM.40b3.rhte.opentlc.com
+----
+
+
 ==== Clone Source Code
-* To help you get started, the client vm comes preloaded with lab assets needed across various labs in the course.
+* To help you get started, please take `git clone` of lab assets
++
+[source,sh]
+----
+$ git clone https://github.com/gpe-mw-training/app-modernization-migration-lab.git ~/labs
+----
+
 * The lab assets may be found at :
 +
 [source,sh]
@@ -35,12 +55,6 @@ In this lab you will study the `monolith-coolstore` application source code and 
 cd  ~/labs/
 ----
 ** The lab assets have been cloned through https://github.com/gpe-mw-training/app-modernization-migration-lab.git[git link]
-* Update the folder
-+
-[source,sh]
-----
-$ git pull
-----
 * Review the contents of `~/labs` folder
 +
 [source,sh]
@@ -51,6 +65,13 @@ drwxrwxr-x 6 4096 Jun 19 16:47 monolith-coolstore
 drwxrwxr-x 2 4096 Jul 27 14:40 rhamt
 ----
 
+==== Access Openshift Container Platform
+. The ocp cluster can be accessed by running the command
++
+[source,sh]
+----
+$ oc login https://master.40b3.rhte.opentlc.com/ -uuser$LAB_USER -pr3dh4t1!
+----
 
 === Application Business Layer
 The business logic of application consists of following modules:
