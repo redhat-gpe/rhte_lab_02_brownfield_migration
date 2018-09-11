@@ -97,9 +97,6 @@ WARNING: The tool needs minimum 4GB RAM. The client VM might not have enough res
 * `cloud-readiness`: identifies areas of an application that may prevent it from running in a healthy way in a cloud environment.
 * `packages`: list of packages to be evaluated, for lab use-case we use `com.redhat.coolstore`
 
-. Thus For the labs, the output of above command output is provided as part of file system.
-. The reports may be viewed by accessing the URL `ip:port/rhamt-report`. The lab uses `httpd` for rendering the reports.
-
 . In the logs check the rules directory used:
 +
 [source,sh]
@@ -120,6 +117,9 @@ Using user rules dir: /home/johndoe/.rhamt/rules
 Report created: /home/johndoe/rhamt-report-monolith-coolstore /index.html
               Access it at this URL: file:///home/johndoe/rhamt-report-monolith-coolstore/index.html
 ----
+
+. For the labs, the output of above command output is exposed through the http://rhte-httpd-server.apps.40b3.rhte.opentlc.com[URL^]
+* The reports are rendered through `httpd` pod.
 
 
 == Review the Reports

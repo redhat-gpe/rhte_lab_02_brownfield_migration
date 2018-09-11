@@ -132,8 +132,8 @@ $ oc get routes
 
 === Gogs User Registration
 
-. Open the `Gogs` URL in the browser.
-. Register a new user in the Gogs application by supplying in the valid details.
+. Open the http://gogs-rhte-migration.apps.40b3.rhte.opentlc.com[GOGS_URL] in the browser.
+. Register a new user in the Gogs application by supplying in the valid details. Click the `Register` on top right of page.
 . Log in to the Gogs application with the registered user and create a new repository named `rhte-brownfield-app-migration` by clicking on to the `+` sign on `My Repositories` section.
 +
 image::images/gogs-create-repo.png[]
