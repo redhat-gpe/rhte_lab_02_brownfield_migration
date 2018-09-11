@@ -129,7 +129,7 @@ $ export DB_PASSWORD=jboss
 $ export APPLICATION_NAME=inventory-service
 $ export SOURCE_REPOSITORY_REF=master
 $ export CONTEXT_DIR=modern-coolstore/inventory-service
-$ export SOURCE_REPOSITORY=http://amm-gogs.rhte-gogs.svc.cluster.local:3000/$GOGS_USER/
+$ export SOURCE_REPOSITORY=http://gogs-rhte-migration.svc.cluster.local:3000/$GOGS_USER/rhte-brownfield-app-migration.git
 ----
 +
 NOTE: For inter-pod DNS resolution, you use the OpenShift nomenclature for the service URL (`<service>.<pod_namespace>.svc.cluster.local:port`).
