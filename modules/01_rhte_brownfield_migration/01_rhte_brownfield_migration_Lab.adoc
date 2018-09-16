@@ -516,13 +516,14 @@ In the lab we use custom rule for monolith-coolstore migration. The rule is prov
 . Please click on the below URL to view the `rhamt` reports.
 
 +
-NOTE: For the labs, the output from running the above rule is provided through http://rhte-httpd-server.apps.40b3.rhte.opentlc.com[URL^]
+NOTE: For the labs, the output from running the above rule is provided through http://rhamt-httpd-server.apps.40b3.rhte.opentlc.com[URL^]
 
 * The recommended memory for `rhamt-cli` is 8GB
 * The reports are rendered through `httpd` pod.
 . For interested participants, the instructions on rhamt rules installation, running the `rhamt-cli` and viewing the reports are provided in the <<Appendix#RHAMT Rules,Appendix>>
 
 === Review the Reports
+. Open the in the http://rhamt-httpd-server.apps.40b3.rhte.opentlc.com[URL^] browser
 . The main landing page specifies the number of `mandatory` issues, `4` in our case.
 . Verify the rules executed, On landing page click `Rule providers execution overview` and search for the rule created `proprietary-servlet-annotations-01000` & `proprietary-servlet-annotations-02000`
 +
@@ -583,7 +584,7 @@ $ mvn clean package -DskipTests
 ----
 . Again run the `rhamt-cli` tool to check if the changes have been made.
 
-. View the reports in browser by opening the URL:
+. View the reports in browser by opening the  http://rhamt-web-server.apps.40b3.rhte.opentlc.com[URL^]
 
 .. On the landing page, confirm that the project ROOT.war has *0 story points*.
 +
