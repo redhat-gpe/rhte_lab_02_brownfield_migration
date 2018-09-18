@@ -624,7 +624,7 @@ This lab environment provides an out-of-the-box OpenShift project. This project 
 ----
 $ oc projects
 ----
-* Expect to see a project named `rhte-mw-bfield-migration-constraints-user$USER_LAB_NUM`, where "$GUID" is the unique identifier you received in the provisioning email for the labs.
+* Expect to see a project named `rhte-mw-bfield-migration-constraints-user$LAB_USER_NUM`, where "$GUID" is the unique identifier you received in the provisioning email for the labs.
 
 . Select the `rhte-mw-bfield-migration-constraints-$LAB_USER_NUM` project:
 +
@@ -736,7 +736,7 @@ image:images/events-details.png[]
 +
 [source,sh]
 ----
-$ oc get limits rhte-mw-bfield-migration-constraints-user$USER_LAB_NUM-core-resource-limits -o yaml
+$ oc get limits rhte-mw-bfield-migration-constraints-user$LAB_USER_NUM-core-resource-limits -o yaml
 ----
 +
 .Sample Output
