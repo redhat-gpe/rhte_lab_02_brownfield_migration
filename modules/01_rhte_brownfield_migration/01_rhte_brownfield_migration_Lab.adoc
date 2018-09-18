@@ -1701,7 +1701,7 @@ $ cd ~/labs/modern-coolstore/cart-service
 $ oc create configmap cart-service \
    --from-literal=catalog.service.url=<catalog service url>
 ----
-* Use the internal service routing URL (link:http://catalog-service.catalog-service.svc.cluster.local:8080[http://catalog-service.catalog-service.svc.cluster.local:8080^]).
+* Use the internal service routing URL (link:http://catalog-service.catalog-service.svc.cluster.local:8080[http://catalog-service.user$LAB_USER_NUM-modern-catalog-service.svc.cluster.local:8080^]).
 
 ==== Deploy with Fabric8 Maven Plug-in
 
