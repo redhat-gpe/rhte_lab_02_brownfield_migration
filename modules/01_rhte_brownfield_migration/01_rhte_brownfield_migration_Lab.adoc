@@ -36,7 +36,7 @@ image::images/ggshared.png[Information Page]
 ** password: r3dh4t1!
 ** server-url: https://master.f4b9.rhte.opentlc.com, where `f4b9` is the unique ID for this shared environment
 
-. The lab instructions can be accessed by by clicking on the link *here*
+. The lab instructions can be accessed at the http://www00.opentlc.com/rhte/rhte_lab_02_brownfield_migration/LabInstructionsFiles/01_rhte_brownfield_migration_Lab.html[URL^]
 
 . When you are completely done with your lab environment, please click *Reset Workstation* so that you can move on to the next lab.  If you fail to do this, you will be locked into the GUID from the previous lab.
 +
@@ -103,10 +103,10 @@ $ oc login https://master.f4b9.rhte.opentlc.com/ -uuser$LAB_USER_NUM -pr3dh4t1!
 ----
 * the lab comes with a pre-created openshift project `rhte-mw-bfield-migration-constraints-user$LAB_USER_NUM`
 
-WARNING: Don't do anything in this project until <<Openshift Resources,section>>
+WARNING: This is a special openshift project with constrined resources and will be used for <<Openshift Resources,Openshift Resources Section>>
 
 ==== OCP Web Console
-. Open the https://master.f4b9.rhte.opentlc.com/[link] in your browser.
+. Open the https://master.f4b9.rhte.opentlc.com/[URL^] in your browser.
 . Authenticate using credentials used in above section.
 
 image::images/ocp_web_console.png[]
@@ -146,7 +146,7 @@ image::images/monolith-app.jpg[]
 . Utilizing the https://maven.apache.org/guides/mini/guide-multiple-modules.html[Maven Reactor] mechanism, the Maven projects have been aggregated.
 ** Review the parent `pom.xml` and take note of `modules` section
 
-NOTE: The traditional applications usually comprised of multi-module maven projects as dependencies.
+NOTE: The traditional applications are usually comprised of a multi-module maven projects as dependencies.
 
 
 . For child project `monolith-coolstore-service` review the `pom.xml` and take note of the following sections:
@@ -203,7 +203,7 @@ The service layer exposes the persistence methods to the REST layer.
 
 ==== Run Unit Tests
 NOTE: To run unit tests you will need local EAP installation. Due to limited resources on the client VM we proceed without running them.
-For participants who are interested to know more on unit-tests please check the instructions in <<Appendix#Configure Monolith EAP for Unit tests, Appendix>>
+For participants who are interested to know more on unit-tests please check the instructions in <<Configure Monolith EAP for Unit tests,Configure Monolith EAP for Unit tests>>
 
 === Build Application
 . We do maven build
@@ -218,7 +218,7 @@ $ mvn clean package -DskipTests
 
 === Deployment of Application
 NOTE: The client VM is not shipped with `postgresql` and `EAP` server. Thus for monolith we do not deploy the application in the lab.
-But for interested participants `How-to` instruction are given in <<Appendix#Monolith Application Deployment,Appendix>>
+But for interested participants `How-to` instruction are given in <<Monolith Application Deployment,Monolith Application Deployment>>
 
 
 
@@ -246,7 +246,7 @@ $ oc login https://master.f4b9.rhte.opentlc.com -uuser$LAB_USER_NUM -pr3dh4t1!
 ----
 $ oc new-project user$LAB_USER_NUM-monolith-coolstore
 ----
-
++
 NOTE: Be sure to replace the "." character in your OPENTLC username with the "-" character—​for example, johndoe1-redhat-com instead of johndoe1-redhat.com. OpenShift project names must be unique within an OpenShift cluster, so this ensures that your project names begin with a unique prefix.
 
 . Openshift comes with `out-of-box` support for `PostgreSQL`. By using this image and defining the environment variables create a database `monolith` having user credentials `jboss:jboss`
@@ -519,7 +519,7 @@ NOTE: For the labs, the output from running the above rule is provided through h
 
 * The recommended memory for `rhamt-cli` is 8GB
 * The reports are rendered through `httpd` pod.
-. For interested participants, the instructions on rhamt rules installation, running the `rhamt-cli` and viewing the reports are provided in the <<Appendix#RHAMT Rules,Appendix>>
+. For interested participants, the instructions on rhamt rules installation, running the `rhamt-cli` and viewing the reports are provided in the <<RHAMT Rules,RHAMT Rules>>
 
 === Review the Reports
 . Open the in the http://rhamt-httpd-server.apps.f4b9.rhte.opentlc.com[URL^] browser
@@ -531,7 +531,7 @@ image::images/landing-page.png[]
 . Also starting version `4.1.0.Final` new reports named as `Technology Reports` are shipped. (As shown in pic above)
 * Click on the `Technologies` link at top of the page
 * This report provides an aggregate listing of the technologies used, grouped by function, for the analyzed applications. It shows how the technologies are distributed, and is typically reviewed after analyzing a large number of applications to group the applications and identify patterns. It also shows the size, number of libraries, and story point totals of each application.
-
++
 image::images/technologies-report-details.png[]
 
 . Go back, Click the `ROOT.war`, the `Dashboard` gives an overview of the `mandatory`, `optional`, `cloud-mandatory` etc. incidents with their story points.
@@ -868,7 +868,7 @@ cat ~/labs/modern-coolstore/etc/gogs-persistent-template.yaml
 +
 NOTE: The lab environment comes pre-provisoned with a `gogs` server. Gogs support multi-tenancy thus instead having each user come up with his own `Gogs` server, the user may use existing gogs server.
 
-. For interested participants, the instructions to setup `gogs` are given in <<Appendix#Gogs Setup,Appendix>>
+. For interested participants, the instructions to setup `gogs` are given in <<Gogs Setup,Gogs Setup>>
 
 === Gogs User Registration
 
@@ -1020,7 +1020,7 @@ inventory-service-postgresql-1-tclg7   1/1       Running     0          8m
 ----
 
 . Verify that the database is created and already populated with seed data.
-* To verify the seed data, refer to the <<02_lift_shift_Lab#Deployment of PostgreSQL on Openshift,section>>.
+* To verify the seed data, refer to the <<Deployment on Openshift,Deployment of PostgreSQL on Openshift>>.
 
 . The build takes sometime, examine the build logs to determine whether the application built successfully:
 +
@@ -2272,14 +2272,15 @@ $ unzip migrationtoolkit-rhamt-cli-4.0.1-offline.zip -d ~/rhamt
 ----
 $ cp ~/labs/rhamt/proprietary-servlet-annotations.windup.xml ~/rhamt/rhamt-cli-4.0.1.Final/rules/
 ----
-=== Testing the Rule
+
+==== Testing the Rule
 . Set up a soft link to the RHAMT CLI tool
 +
 [source,sh]
 ----
 $ cd ~
 
-// set up a link for ~/rhamt-cli
+# set up a link for ~/rhamt-cli
 $ ln -sT ~/rhamt-cli/rhamt-cli-4.0.1.Final/bin/rhamt-cli ~/rhamt-cli
 ----
 +
