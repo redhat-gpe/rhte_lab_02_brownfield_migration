@@ -2,7 +2,7 @@
 :numbered:
 :scrollbar:
 
-== Environment Setup
+== Brownfield Migration Lab: Environment Setup
 
 The lab environment consists of two parts:
 
@@ -34,7 +34,7 @@ image::images/ggshared.png[Information Page]
 * Openshift Cluster:
 ** username: user25 , where `25` is user lab number generated on the page
 ** password: r3dh4t1!
-** server-url: https://master.40b3.rhte.opentlc.com, where `40b3` is the unique ID for this shared environment
+** server-url: https://master.f4b9.rhte.opentlc.com, where `f4b9` is the unique ID for this shared environment
 
 . The lab instructions can be accessed by by clicking on the link *here*
 
@@ -67,7 +67,7 @@ $ export LAB_USER_NUM=<lab number from from last lab>
 +
 [source,sh]
 ----
-ssh lab-user@clientvm$LAB_USER_NUM.40b3.rhte.opentlc.com
+ssh lab-user@clientvm$LAB_USER_NUM.f4b9.rhte.opentlc.com
 ----
 
 === Clone Source Code
@@ -99,14 +99,14 @@ drwxrwxr-x 2 4096 Jul 27 14:40 rhamt
 +
 [source,sh]
 ----
-$ oc login https://master.40b3.rhte.opentlc.com/ -uuser$LAB_USER_NUM -pr3dh4t1!
+$ oc login https://master.f4b9.rhte.opentlc.com/ -uuser$LAB_USER_NUM -pr3dh4t1!
 ----
 * the lab comes with a pre-created openshift project `rhte-mw-bfield-migration-constraints-user$LAB_USER_NUM`
 
 WARNING: Don't do anything in this project until <<Openshift Resources,section>>
 
 ==== OCP Web Console
-. Open the https://master.40b3.rhte.opentlc.com/[link] in your browser.
+. Open the https://master.f4b9.rhte.opentlc.com/[link] in your browser.
 . Authenticate using credentials used in above section.
 
 image::images/ocp_web_console.png[]
@@ -238,15 +238,14 @@ image:images/coolstore-monolith-ocp.png[]
 +
 [source,sh]
 ----
-$ oc login https://master.40b3.rhte.opentlc.com -uuser$LAB_USER_NUM -pr3dh4t1!
+$ oc login https://master.f4b9.rhte.opentlc.com -uuser$LAB_USER_NUM -pr3dh4t1!
 ----
 . Create a openshift project for the deployment of monolith-coolstore.
 +
 [source,sh]
 ----
-$ oc new-project $USER-monolith-coolstore
+$ oc new-project user$LAB_USER_NUM-monolith-coolstore
 ----
-* substitue $USER for your LAB username.
 
 NOTE: Be sure to replace the "." character in your OPENTLC username with the "-" character—​for example, johndoe1-redhat-com instead of johndoe1-redhat.com. OpenShift project names must be unique within an OpenShift cluster, so this ensures that your project names begin with a unique prefix.
 
@@ -516,14 +515,14 @@ In the lab we use custom rule for monolith-coolstore migration. The rule is prov
 . Please click on the below URL to view the `rhamt` reports.
 
 +
-NOTE: For the labs, the output from running the above rule is provided through http://rhamt-httpd-server.apps.40b3.rhte.opentlc.com[URL^]
+NOTE: For the labs, the output from running the above rule is provided through http://rhamt-httpd-server.apps.f4b9.rhte.opentlc.com[URL^]
 
 * The recommended memory for `rhamt-cli` is 8GB
 * The reports are rendered through `httpd` pod.
 . For interested participants, the instructions on rhamt rules installation, running the `rhamt-cli` and viewing the reports are provided in the <<Appendix#RHAMT Rules,Appendix>>
 
 === Review the Reports
-. Open the in the http://rhamt-httpd-server.apps.40b3.rhte.opentlc.com[URL^] browser
+. Open the in the http://rhamt-httpd-server.apps.f4b9.rhte.opentlc.com[URL^] browser
 . The main landing page specifies the number of `mandatory` issues, `4` in our case.
 . Verify the rules executed, On landing page click `Rule providers execution overview` and search for the rule created `proprietary-servlet-annotations-01000` & `proprietary-servlet-annotations-02000`
 +
@@ -584,7 +583,7 @@ $ mvn clean package -DskipTests
 ----
 . Again run the `rhamt-cli` tool to check if the changes have been made.
 
-. View the reports in browser by opening the  http://rhamt-web-server.apps.40b3.rhte.opentlc.com[URL^]
+. View the reports in browser by opening the  http://post-migration-httpd-server.apps.f4b9.rhte.opentlc.com/[URL^]
 
 .. On the landing page, confirm that the project ROOT.war has *0 story points*.
 +
@@ -625,9 +624,9 @@ This lab environment provides an out-of-the-box OpenShift project. This project 
 ----
 $ oc projects
 ----
-* Expect to see a project named `rhte-mw-bfield-migration-constraints-$GUID`, where "$GUID" is the unique identifier you received in the provisioning email for the labs.
+* Expect to see a project named `rhte-mw-bfield-migration-constraints-user$USER_LAB_NUM`, where "$GUID" is the unique identifier you received in the provisioning email for the labs.
 
-. Select the `rhte-mw-bfield-migration-constraints-$USER_NUM` project:
+. Select the `rhte-mw-bfield-migration-constraints-$LAB_USER_NUM` project:
 +
 [source,sh]
 ----
@@ -737,7 +736,7 @@ image:images/events-details.png[]
 +
 [source,sh]
 ----
-$ oc get limits rhte-mw-bfield-migration-constraints-$GUID-core-resource-limits -o yaml
+$ oc get limits rhte-mw-bfield-migration-constraints-user$USER_LAB_NUM-core-resource-limits -o yaml
 ----
 +
 .Sample Output
@@ -873,37 +872,12 @@ NOTE: The lab environment comes pre-provisoned with a `gogs` server. Gogs suppor
 
 === Gogs User Registration
 
-. Open the http://gogs-rhte-migration.apps.40b3.rhte.opentlc.com[GOGS_URL] in the browser.
+. Open the http://amm-gogs-rhte-migration.apps.f4b9.rhte.opentlc.com[GOGS_URL] in the browser.
 . Register a new user in the Gogs application by supplying in the valid details. Click the `Register` on top right of page.
 . Log in to the Gogs application with the registered user and create a new repository named `rhte-brownfield-app-migration` by clicking on to the `+` sign on `My Repositories` section.
 +
 image::images/gogs-create-repo.png[]
 
-=== Review Cluster Quota and Limit Resource Computation
-
-. Review the resources defined for the deployment configurations defined in the project:
-* PostgreSQL resources:
-+
-[source,sh]
-----
-$  oc get dc amm-gogs-postgresql  -o jsonpath='{ .spec.template.spec.containers[0].resources }'
-----
-+
-.Sample Output
-----
-map[limits:map[memory:512Mi] requests:map[memory:100Mi]]
-----
-* Gogs resources:
-+
-[source,sh]
-----
-$  oc get dc amm-gogs  -o jsonpath='{ .spec.template.spec.containers[0].resources }'
-----
-+
-.Sample Output
-----
-map[]
-----
 
 === Application Decomposition to Create Inventory Service Lab
 
@@ -971,7 +945,7 @@ Documentation helps consumers of the service know which services are available, 
 $ export GOGS_USER=<user registered in gogs>
 $ cd ~/labs/
 
-$ git remote add gogs http://amm-gogs-rhte-migration.apps.40b3.rhte.opentlc.com/$GOGS_USER/rhte-brownfield-app-migration.git
+$ git remote add gogs http://amm-gogs-rhte-migration.apps.f4b9.rhte.opentlc.com/$GOGS_USER/rhte-brownfield-app-migration.git
 ----
 
 . Push the code to your Gogs repository:
@@ -1014,7 +988,7 @@ $ export DB_PASSWORD=jboss
 $ export APPLICATION_NAME=inventory-service
 $ export SOURCE_REPOSITORY_REF=master
 $ export CONTEXT_DIR=modern-coolstore/inventory-service
-$ export SOURCE_REPOSITORY=http://amm-gogs-rhte-migration.svc.cluster.local:3000/$GOGS_USER/rhte-brownfield-app-migration.git
+$ export SOURCE_REPOSITORY=http://gogs.rhte-migration.svc.cluster.local:3000/$GOGS_USER/rhte-brownfield-app-migration.git
 ----
 +
 NOTE: For inter-pod DNS resolution, you use the OpenShift nomenclature for the service URL (`<service>.<pod_namespace>.svc.cluster.local:port`).
@@ -2362,7 +2336,7 @@ $ oc new-project $GOGS_PROJECT
 ----
 $ cd ~/labs/modern-coolstore/
 
-$ oc new-app -f etc/gogs-persistent-template.yaml -p APPLICATION_NAME=amm-gogs --param=HOSTNAME=amm-gogs-$GOGS_PROJECT.apps.$GUID.openshift.opentlc.com
+$ oc new-app -f etc/gogs-persistent-template.yaml -p APPLICATION_NAME=amm-gogs --param=HOSTNAME=amm-gogs-$GOGS_PROJECT.apps.f4b9.rhte.opentlc.com
 ----
 
 . Review the OpenShift resource objects created:
