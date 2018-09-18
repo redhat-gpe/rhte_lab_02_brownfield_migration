@@ -1146,7 +1146,7 @@ $ export MODERN_INVENTORY_URL=http://$(oc get route inventory-service  -o templa
 +
 [source,sh]
 ----
-$ curl -X GET "$MODERN_INVENTORY_URL/api/swagger.json | jq
+$ curl -X GET "$MODERN_INVENTORY_URL/api/swagger.json" | jq
 ----
 
 . Retrieve the inventory for a product:
@@ -1469,7 +1469,7 @@ $ curl -X GET "$MODERN_CATALOG_URL/health"
 +
 [source,sh]
 ----
-$ curl -X GET "$MODERN_CATALOG_URL/swagger.json | jq
+$ curl -X GET "$MODERN_CATALOG_URL/swagger.json" | jq
 ----
 +
 .Sample Output
@@ -1525,7 +1525,7 @@ $ curl -X GET "$MODERN_CATALOG_URL/swagger.json | jq
 +
 [source,sh]
 ----
-$ curl -X GET "$MODERN_CATALOG_URL/catalog/products | jq "
+$ curl -X GET "$MODERN_CATALOG_URL/catalog/products" | jq 
 ----
 +
 .Sample Output
