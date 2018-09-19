@@ -93,6 +93,12 @@ drwxrwxr-x 6 4096 Jun 19 16:47 monolith-coolstore
 -rw-rw-r-- 1   43 May 31 17:14 README.md
 drwxrwxr-x 2 4096 Jul 27 14:40 rhamt
 ----
+. Again set the shell variable `LAB_USER_NUM`, this time at `clientVM`
++
+[source,sh]
+----
+$ export LAB_USER_NUM=<lab number from from last lab>
+----
 
 === Access Openshift Container Platform
 . The ocp cluster can be accessed by running the command
@@ -1525,7 +1531,7 @@ $ curl -X GET "$MODERN_CATALOG_URL/swagger.json" | jq
 +
 [source,sh]
 ----
-$ curl -X GET "$MODERN_CATALOG_URL/catalog/products" | jq 
+$ curl -X GET "$MODERN_CATALOG_URL/catalog/products" | jq
 ----
 +
 .Sample Output
