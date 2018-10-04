@@ -23,7 +23,8 @@ image::images/ggs1.png[GuidGrabber Landing Page]
 
 . Click *Next*.
 
-. The resulting page will display your lab's user number and other useful information about your lab environment.
+. The resulting page will display your user's `lab number` and other useful information about your lab environment.
+* Make note of the assigned lab number.
 +
 image::images/ggshared.png[Information Page]
 . From the image shown above the credentials to access the:
@@ -57,34 +58,34 @@ Clicking *Reset Workstation* will not stop or delete the lab environment.
 NOTE: Given the fact you have above tools installed on your local machine, you should be able to execute the lab instructions.
 
 === SSH to Client VM
-. Set the shell variable LAB_USER_NUM
+. Set the shell variable ASSIGNED_LAB_NUMBER
 +
 [source,sh]
 ----
-$ export LAB_USER_NUM=<lab number from from last lab>
+$ export ASSIGNED_LAB_NUMBER=<assigned lab number>
 ----
 . SSH into the clientVM
 +
 [source,sh]
 ----
-ssh lab-user@clientvm$LAB_USER_NUM.f4b9.rhte.opentlc.com
+ssh lab-user@clientvm$ASSIGNED_LAB_NUMBER.f4b9.rhte.opentlc.com
 ----
 
 === Clone Source Code
-* To help you get started, please take `git clone` of lab assets
+. To help you get started, please take `git clone` of lab assets
 +
 [source,sh]
 ----
 $ git clone https://github.com/gpe-mw-training/app-modernization-migration-lab.git ~/labs
 ----
 
-* The lab assets will be found at :
+. The lab assets will be found at :
 +
 [source,sh]
 ----
 cd  ~/labs/
 ----
-* Review the contents of `~/labs` folder
+. Review the contents of `~/labs` folder
 +
 [source,sh]
 ----
@@ -93,11 +94,11 @@ drwxrwxr-x 6 4096 Jun 19 16:47 monolith-coolstore
 -rw-rw-r-- 1   43 May 31 17:14 README.md
 drwxrwxr-x 2 4096 Jul 27 14:40 rhamt
 ----
-. Again set the shell variable `LAB_USER_NUM`, this time at `clientVM`
+. Again set the shell variable `ASSIGNED_LAB_NUMBER`, this time at `clientVM`
 +
 [source,sh]
 ----
-$ export LAB_USER_NUM=<lab number from from last lab>
+$ export ASSIGNED_LAB_NUMBER=<assigned lab number>
 ----
 
 === Access Openshift Container Platform
@@ -105,9 +106,9 @@ $ export LAB_USER_NUM=<lab number from from last lab>
 +
 [source,sh]
 ----
-$ oc login https://master.f4b9.rhte.opentlc.com/ -uuser$LAB_USER_NUM -pr3dh4t1!
+$ oc login https://master.f4b9.rhte.opentlc.com/ -uuser$ASSIGNED_LAB_NUMBER -pr3dh4t1!
 ----
-* the lab comes with a pre-created openshift project `rhte-mw-bfield-migration-constraints-user$LAB_USER_NUM`
+* the lab comes with a pre-created openshift project `rhte-mw-bfield-migration-constraints-user$ASSIGNED_LAB_NUMBER`
 
 WARNING: This is a special openshift project with constrined resources and will be used for <<Openshift Resources,Openshift Resources Section>>
 
@@ -244,13 +245,13 @@ image:images/coolstore-monolith-ocp.png[]
 +
 [source,sh]
 ----
-$ oc login https://master.f4b9.rhte.opentlc.com -uuser$LAB_USER_NUM -pr3dh4t1!
+$ oc login https://master.f4b9.rhte.opentlc.com -uuser$ASSIGNED_LAB_NUMBER -pr3dh4t1!
 ----
 . Create a openshift project for the deployment of monolith-coolstore.
 +
 [source,sh]
 ----
-$ oc new-project user$LAB_USER_NUM-monolith-coolstore
+$ oc new-project user$ASSIGNED_LAB_NUMBER-monolith-coolstore
 ----
 +
 NOTE: Be sure to replace the "." character in your OPENTLC username with the "-" character—​for example, johndoe1-redhat-com instead of johndoe1-redhat.com. OpenShift project names must be unique within an OpenShift cluster, so this ensures that your project names begin with a unique prefix.
@@ -630,9 +631,9 @@ This lab environment provides an out-of-the-box OpenShift project. This project 
 ----
 $ oc projects
 ----
-* Expect to see a project named `rhte-mw-bfield-migration-constraints-user$LAB_USER_NUM`, where "$GUID" is the unique identifier you received in the provisioning email for the labs.
+* Expect to see a project named `rhte-mw-bfield-migration-constraints-user$ASSIGNED_LAB_NUMBER`, where "$GUID" is the unique identifier you received in the provisioning email for the labs.
 
-. Select the `rhte-mw-bfield-migration-constraints-$LAB_USER_NUM` project:
+. Select the `rhte-mw-bfield-migration-constraints-$ASSIGNED_LAB_NUMBER` project:
 +
 [source,sh]
 ----
@@ -691,7 +692,7 @@ deploymentconfig "catalog-postgresql" created
 +
 [source,sh]
 ----
-$ oc get dc/catalog-postgresql  -o jsonpath='{ .spec.template.spec.containers[0].resources }'
+$ oc get dc/catalog-postgresql  -o jsonpath='{.spec.template.spec.containers[0].resources}'
 ----
 +
 .Sample Output
@@ -742,7 +743,7 @@ image:images/events-details.png[]
 +
 [source,sh]
 ----
-$ oc get limits rhte-mw-bfield-migration-constraints-user$LAB_USER_NUM-core-resource-limits -o yaml
+$ oc get limits rhte-mw-bfield-migration-constraints-user$ASSIGNED_LAB_NUMBER-core-resource-limits -o yaml
 ----
 +
 .Sample Output
@@ -968,7 +969,7 @@ $ git push gogs master
 +
 [source,sh]
 ----
-$ oc new-project user$LAB_USER_NUM-modern-inventory-service
+$ oc new-project user$ASSIGNED_LAB_NUMBER-modern-inventory-service
 ----
 
 . Review the `ClusterQuota` and `LimitRange` objects.
@@ -1111,7 +1112,7 @@ $ oc logs -f inventory-service-1-gwh3s
 +
 [source,sh]
 ----
-$ oc get dc inventory-service-postgresql  -o jsonpath='{ .spec.template.spec.containers[0].resources }'
+$ oc get dc inventory-service-postgresql  -o jsonpath='{.spec.template.spec.containers[0].resources}'
 ----
 +
 .Sample Output
@@ -1123,7 +1124,7 @@ Output: map[]
 +
 [source,sh]
 ----
-$ oc get dc inventory-service  -o jsonpath='{ .spec.template.spec.containers[0].resources }'
+$ oc get dc inventory-service  -o jsonpath='{.spec.template.spec.containers[0].resources}'
 ----
 +
 .Sample Output
@@ -1292,7 +1293,7 @@ The `liveness` and `readiness` probes are defined using the Wildfly Swarm `monit
 +
 [source,sh]
 ----
-$ oc new-project user$LAB_USER_NUM-modern-catalog-service
+$ oc new-project user$ASSIGNED_LAB_NUMBER-modern-catalog-service
 ----
 
 . Review the `clusterquota` and `limitrange` objects.
@@ -1420,7 +1421,7 @@ $ oc logs -f catalog-service-1-qfjcq
 +
 [source,sh]
 ----
-$  oc get dc catalog-postgresql  -o jsonpath='{ .spec.template.spec.containers[0].resources }'
+$  oc get dc catalog-postgresql  -o jsonpath='{.spec.template.spec.containers[0].resources}'
 ----
 +
 .Sample Output
@@ -1432,7 +1433,7 @@ map[limits:map[memory:512Mi]]
 +
 [source,sh]
 ----
-$ oc get dc catalog-service  -o jsonpath='{ .spec.template.spec.containers[0].resources }'
+$ oc get dc catalog-service  -o jsonpath='{.spec.template.spec.containers[0].resources}'
 ----
 +
 .Sample Output
@@ -1671,7 +1672,7 @@ Spring Boot comes with a Spring Actuator module, which helps monitor and manage 
 +
 [source,sh]
 ----
-$ export CART_PRJ=user$LAB_USER_NUM-modern-cart-service
+$ export CART_PRJ=user$ASSIGNED_LAB_NUMBER-modern-cart-service
 $ oc new-project $CART_PRJ
 ----
 
@@ -1707,7 +1708,7 @@ $ cd ~/labs/modern-coolstore/cart-service
 $ oc create configmap cart-service \
    --from-literal=catalog.service.url=<catalog service url>
 ----
-* Use the internal service routing URL (link:http://catalog-service.catalog-service.svc.cluster.local:8080[http://catalog-service.user$LAB_USER_NUM-modern-catalog-service.svc.cluster.local:8080^]).
+* Use the internal catalog service routing URL as shown here `http://catalog-service.user$ASSIGNED_LAB_NUMBER-modern-catalog-service.svc.cluster.local:8080`
 
 ==== Deploy with Fabric8 Maven Plug-in
 
@@ -1793,7 +1794,7 @@ $ oc logs -f cart-service-1-dw7lf
 +
 [source,sh]
 ----
-$  oc get dc cart-service -o jsonpath='{ .spec.template.spec.containers[0].resources }'
+$  oc get dc cart-service -o jsonpath='{.spec.template.spec.containers[0].resources}'
 ----
 +
 .Sample Output
