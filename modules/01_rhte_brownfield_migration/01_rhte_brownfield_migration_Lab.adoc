@@ -210,7 +210,7 @@ The service layer exposes the persistence methods to the REST layer.
 
 ==== Run Unit Tests
 NOTE: To run unit tests you will need local EAP installation. Due to limited resources on the client VM we proceed without running them.
-For participants who are interested to know more on unit-tests please check the instructions in Appendix Section: xref:Configure Monolith EAP for Unit tests[]
+For participants who are interested to know more on unit-tests please check the instructions in Appendix Section:  <<_configure_monolith_eap_for_unit_tests,Configure Monolith EAP for Unit tests>>
 
 === Build Application
 . We do maven build
