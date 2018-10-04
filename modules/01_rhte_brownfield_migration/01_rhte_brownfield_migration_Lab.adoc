@@ -110,7 +110,7 @@ $ oc login https://master.f4b9.rhte.opentlc.com/ -uuser$ASSIGNED_LAB_NUMBER -pr3
 ----
 * the lab comes with a pre-created openshift project `rhte-mw-bfield-migration-constraints-user$ASSIGNED_LAB_NUMBER`
 
-WARNING: This is a special openshift project with constrined resources and will be used for <<Openshift Resources,Openshift Resources Section>>
+WARNING: This is a special openshift project with constrined resources and will be used for <<_openshift_resources,Openshift Resources>>
 
 ==== OCP Web Console
 . Open the https://master.f4b9.rhte.opentlc.com/[URL^] in your browser.
@@ -225,7 +225,7 @@ $ mvn clean package -DskipTests
 
 === Deployment of Application
 NOTE: The client VM is not shipped with `postgresql` and `EAP` server. Thus for monolith we do not deploy the application in the lab.
-But for interested participants `How-to` instruction are given in <<Monolith Application Deployment,Monolith Application Deployment>>
+But for interested participants `How-to` instruction are given in <<_monolith_application_deployment,Monolith Application Deployment>>
 
 
 
@@ -526,7 +526,7 @@ NOTE: For the labs, the output from running the above rule is provided through h
 
 * The recommended memory for `rhamt-cli` is 8GB
 * The reports are rendered through `httpd` pod.
-. For interested participants, the instructions on rhamt rules installation, running the `rhamt-cli` and viewing the reports are provided in the <<RHAMT Rules,RHAMT Rules>>
+. For interested participants, the instructions on rhamt rules installation, running the `rhamt-cli` and viewing the reports are provided in the <<_rhamt_rules,RHAMT Rules>>
 
 === Review the Reports
 . Open the in the http://rhamt-httpd-server.apps.f4b9.rhte.opentlc.com[URL^] browser
@@ -875,7 +875,7 @@ cat ~/labs/modern-coolstore/etc/gogs-persistent-template.yaml
 +
 NOTE: The lab environment comes pre-provisoned with a `gogs` server. Gogs support multi-tenancy thus instead having each user come up with his own `Gogs` server, the user may use existing gogs server.
 
-. For interested participants, the instructions to setup `gogs` are given in <<Gogs Setup,Gogs Setup>>
+. For interested participants, the instructions to setup `gogs` are given in <<_gogs_setup,Gogs Setup>>
 
 === Gogs User Registration
 
@@ -1027,7 +1027,7 @@ inventory-service-postgresql-1-tclg7   1/1       Running     0          8m
 ----
 
 . Verify that the database is created and already populated with seed data.
-* To verify the seed data, refer to the <<Deployment on Openshift,Deployment of PostgreSQL on Openshift>>.
+* To verify the seed data, refer to the <<_deployment_on_openshift,Deployment of PostgreSQL on Openshift>>.
 
 . The build takes sometime, examine the build logs to determine whether the application built successfully:
 +
