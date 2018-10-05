@@ -29,7 +29,7 @@ image::images/ggs1.png[GuidGrabber Landing Page]
 image::images/ggshared.png[Information Page]
 . From the image shown above the credentials to access the:
 * Client VM:
-** username:lab-user
+** username: lab-user
 ** password: r3dh4t1!
 
 * Openshift Cluster:
@@ -522,10 +522,11 @@ In the lab we use custom rule for monolith-coolstore migration. The rule is prov
 . Please click on the below URL to view the `rhamt` reports.
 
 +
-NOTE: For the labs, the output from running the above rule is provided through http://rhamt-httpd-server.apps.f4b9.rhte.opentlc.com[URL^]
+NOTE: For the labs, the output from running the above rule is provided through http://rhamt-httpd-server.apps.f4b9.rhte.opentlc.com[URL^]. Due to the limitation to keep clientvm same across different rhte labs, the reports have been pre-generated and packaged in a http server.
+The steps to package can be found in Appendix section <<_packing_rhamt_reports_in_http_container,Packing RHAMT Reports in HTTP Container>>
 
 * The recommended memory for `rhamt-cli` is 8GB
-* The reports are rendered through `httpd` pod.
+
 . For interested participants, the instructions on rhamt rules installation, running the `rhamt-cli` and viewing the reports are provided in the <<_rhamt_rules,RHAMT Rules>>
 
 === Review the Reports
@@ -995,7 +996,7 @@ $ export DB_PASSWORD=jboss
 $ export APPLICATION_NAME=inventory-service
 $ export SOURCE_REPOSITORY_REF=master
 $ export CONTEXT_DIR=modern-coolstore/inventory-service
-$ export SOURCE_REPOSITORY=http://gogs.rhte-migration.svc.cluster.local:3000/$GOGS_USER/rhte-brownfield-app-migration.git
+$ export SOURCE_REPOSITORY=http://amm-gogs.rhte-migration.svc.cluster.local:3000/$GOGS_USER/rhte-brownfield-app-migration.git
 ----
 +
 NOTE: For inter-pod DNS resolution, you use the OpenShift nomenclature for the service URL (`<service>.<pod_namespace>.svc.cluster.local:port`).
@@ -2328,6 +2329,34 @@ Using user rules dir: /home/johndoe/.rhamt/rules
 Report created: /home/johndoe/rhamt-report-monolith-coolstore /index.html
               Access it at this URL: file:///home/johndoe/rhamt-report-monolith-coolstore/index.html
 ----
+
+=== Packing RHAMT Reports in HTTP Container
+. For `RHAMT` reports packaing we use `httpd` image from `openshift` namespace.
+. The packaging is done using `S2I` build. The lab comes with pre-provisioned `gogs` instance.
+* For participants interested in doing a gogs setup, the steps may be found in Appendix Section <<_gogs_setup,Gogs Setup>>
+. You may use the provided lab assets in the `gogs` as pre-requisties for the `S2I` process.
+. Create `httpd` container with `rhamt-reports` having annotations presence.
++
+[source,sh]
+----
+$ oc new-project httpd-server
+
+$ oc new-app httpd~http://amm-gogs.rhte-migration.svc.cluster.local:3000/gpte/rhte-brownfield-app-migration --context-dir=rhamt/rhamt-report --name=rhamt-reports
+----
+. Create `httpd` container without annotations presence in `rhamt-reports`
++
+[source,sh]
+----
+$ oc new-app httpd~http://amm-gogs.rhte-migration.svc.cluster.local:3000/gpte/rhte-brownfield-app-migration --context-dir=rhamt/rhamt-report-without-annotations  --name=rhamt-report-without-annotations
+----
+. Expose both the services:
++
+[source,sh]
+----
+$ oc expose svc rhamt-reports
+$ oc expose svc rhamt-report-without-annotations
+----
+. Open the routes in the browser.
 
 === Gogs Setup
 . Create an OpenShift project for Gogs, using your OPENTLC username for "$USER" as a prefix in the name:
