@@ -2039,7 +2039,6 @@ $ mvn clean package -Pjboss-managed -DfailIfNoTests=false
 ----
 
 . Verify that you have a successful build.
-
 +
 [source,sh]
 ----
