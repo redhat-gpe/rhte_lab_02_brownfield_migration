@@ -396,7 +396,6 @@ and `PREFIX` is the prefix used in the names of environment variables, which are
 *** `DB_JNDI`: Defines the JNDI name for the datasource and has to be the same value as used in `persistence.xml`
 *** `DB_USERNAME`: `jboss`
 *** `DB_PASSWORD`: `jboss`
-
 +
 [source,sh]
 ----
@@ -2294,7 +2293,6 @@ $ ln -sT ~/rhamt-cli/rhamt-cli-4.0.1.Final/bin/rhamt-cli ~/rhamt-cli
 NOTE: On a Mac, you will need drop the `T` flag. Use this `ln -s ~/rhamt-cli/rhamt-cli-4.0.1.Final/bin/rhamt-cli ~/rhamt-cli`
 +
 . To test the rule created run the following command:
-
 +
 [source,sh]
 ----
