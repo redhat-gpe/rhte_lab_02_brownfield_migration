@@ -291,7 +291,6 @@ postgres=# \l
 
 
 . Exit the postgres command-line and the pod
-
 +
 [source,sh]
 ----
@@ -325,7 +324,7 @@ $ oc new-build --binary=true --name=coolstore -i=jboss-eap64-openshift:1.7
 $ cd ~/labs/monolith-coolstore/
 $ mvn clean package -DskipTests
 ----
-. The above command will create java war file at `~/lab/deployments`
+. The above command will create java war file at `~/labs/monolith-coolstore/deployments`
 +
 ----
 $ ls -l deployments
@@ -874,7 +873,6 @@ cat ~/labs/modern-coolstore/etc/gogs-persistent-template.yaml
 * What template parameters are defined?
 * What limits and resources are defined?
 ****
-
 +
 NOTE: The lab environment comes pre-provisoned with a `gogs` server. Gogs support multi-tenancy thus instead having each user come up with his own `Gogs` server, the user may use existing gogs server.
 
