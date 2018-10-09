@@ -1286,7 +1286,7 @@ The `liveness` and `readiness` probes are defined using the Wildfly Swarm `monit
 * The `check` method returns a `HealthStatus` instance, which signifies the server state as `UP`.
 * The health check API transforms the `HealthStatus` into a JSON payload:
 +
-[source,textinfo]
+[source,sh]
 ----
 {
   "id":"server-state",
@@ -1471,7 +1471,7 @@ $ curl -X GET "$MODERN_CATALOG_URL/health"
 ----
 +
 .Sample Output
-[source,textinfo]
+[source,sh]
 ----
 {"checks": [
 {"id":"server-state","result":"UP"}],
@@ -1487,7 +1487,7 @@ $ curl -X GET "$MODERN_CATALOG_URL/swagger.json" | jq
 ----
 +
 .Sample Output
-[source,textinfo]
+[source,sh]
 ----
 {
   "swagger": "2.0",
@@ -1543,7 +1543,7 @@ $ curl -X GET "$MODERN_CATALOG_URL/catalog/products" | jq
 ----
 +
 .Sample Output
-[source,textinfo]
+[source,sh]
 ----
 {
     "itemId": "329299",
@@ -1833,7 +1833,7 @@ $ curl -X GET "$CART_URL/swagger.json"
 ----
 +
 .Sample Output
-[source,textinfo]
+[source,sh]
 ----
 "paths": {
   "/cart/{cartId}": {
@@ -1882,7 +1882,7 @@ $ curl -X GET "$CART_URL/health"
 ----
 +
 .Sample Output
-[source,textinfo]
+[source,sh]
 ----
 {
   "status": "UP",
@@ -1916,7 +1916,7 @@ $ curl -X GET "$CART_URL/cart/mycart"
 ----
 +
 .Sample Output
-[source,textinfo]
+[source,sh]
 ----
 {
   "cartItemTotal": 0,
@@ -1935,7 +1935,7 @@ $ curl -X POST "$CART_URL/cart/mycart/444436/4"
 ----
 +
 .Sample Output
-[source,textinfo]
+[source,sh]
 ----
 {
   "cartItemTotal": 139.96,
@@ -1965,7 +1965,7 @@ $ curl -X DELETE "$CART_URL/cart/mycart/165614/1"
 ----
 +
 .Sample Output
-[source,textinfo]
+[source,sh]
 ----
 {
   "cartItemTotal": 104.97,
@@ -1995,7 +1995,7 @@ $ curl -X POST "$CART_URL/cart/checkout/mycart"
 ----
 +
 .Sample Output
-[source,textinfo]
+[source,sh]
 ----
 {
   "cartItemTotal": 0,
