@@ -526,7 +526,7 @@ In the lab we use custom rule for monolith-coolstore migration. The rule is prov
 . Please click on the below URL to view the `rhamt` reports.
 
 +
-NOTE: For the labs, the output from running the above rule is provided through URL: http://rhamt-httpd-server.apps.$GUID.rhte.opentlc.com . Due to the limitation to keep clientvm same across different rhte labs, the reports have been pre-generated and packaged in a http server.
+NOTE: For the labs, the output from running the above rule is provided through URL: http://rhamt-reports-httpd-server.apps.$GUID.rhte.opentlc.com . Due to the limitation to keep clientvm same across different rhte labs, the reports have been pre-generated and packaged in a http server.
 In a real world scenario you will create the reports following steps in the Appendix section <<_packing_rhamt_reports_in_http_container,Packing RHAMT Reports in HTTP Container>>
 
 * The recommended memory for `rhamt-cli` is 8GB
