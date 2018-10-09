@@ -257,9 +257,6 @@ $ oc login https://master.$GUID.rhte.opentlc.com -uuser$ASSIGNED_LAB_NUMBER -pr3
 ----
 $ oc new-project user$ASSIGNED_LAB_NUMBER-monolith-coolstore
 ----
-+
-NOTE: Be sure to replace the "." character in your OPENTLC username with the "-" character—​for example, johndoe1-redhat-com instead of johndoe1-redhat.com. OpenShift project names must be unique within an OpenShift cluster, so this ensures that your project names begin with a unique prefix.
-
 . Openshift comes with `out-of-box` support for `PostgreSQL`. By using this image and defining the environment variables create a database `monolith` having user credentials `jboss:jboss`
 +
 [source,sh]
