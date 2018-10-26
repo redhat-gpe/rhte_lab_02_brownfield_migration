@@ -1,16 +1,66 @@
 :toc2:
-:numbered:
 :scrollbar:
 :data-uri:
 
-== Brownfield Migration Lab: Environment Setup
+= Brownfield Migration to OpenShift Lab
 
-The lab environment consists of two parts:
+:numbered:
 
-* `Client VM`: provides the tooling needed to run the different sections of the lab like `mvn`,`rhamt`,`oc client`, `git` etc
-* `OCP cluster`: you use shared ocp cluster to run your projects.
+.Prerequisites
+.. `ssh` utility installed on your laptop.
++
+NOTE: If your network is intermittent, then you may want to consider installing the _mosh_ utility (ie: yum install mosh ) as an alternative to the `ssh` utility.
 
-=== Access the environment
+.. Web browser installed on your laptop
+.. broadband internet connectivity
+
+== Course Virtual Machine
+
+The lab environment consists of a remote virtual machine with the following tooling pre-installed :
+
+* *Client side tooling*:
++
+ie; `mvn`,`rhamt`,`oc client`, `git` etc
+
+* *OpenShift Container Platform*.
+
+This section guides you through the procedure to order a course virtual machine.
+
+There are two options for doing so. [red]#Execute only one of the options below:#
+
+==== Access VM via RHPDS
+
+NOTE: [blue]#This section is only applicable if your desire is to utilize a lab environment in Red Hat's _Partner Demo System_ (RHPDS)#.
+
+. Begin by navigating to the _Cloud Forms_ environment for Red Hat Partner Demo System at:   https://rhpds.redhat.com
+. Authenticate using your _OPENTLC_ credentials (ie:  johndoe-redhat.com )
+. Navigate to the following catalog:  `Services -> Catalog -> All Services -> Red Hat Tech Exchange 2018`
+. Select the following catalog item: `Brownfield Migration to OpenShift`
++
+image::images/rhpds_catalog.png[]
+
+. Click the `Order` button and in the following page, click the checkbox to confirm that you understand and know your runtime and expiration dates.
+. Clcik `Submit`
+
+. Upon ordering your VM, you will receive several emails confirming your order.
+These emails are sent to the email associated with your OPENTLC account.
++
+The most important email is the last one which indicates completion of the provisioning of your lab environment.
+This email arrive approximately 30 minutes from the time the lab was ordered.
+[blue]#Please save this email#.
+
+. The confirmation email will specify a unique GUID.  Please make note of the value of this GUID:
++
+image::images/email_guid.png[]
+
+. SSH access to your VM
+.. The confirmation email will provide exact details as to how to ssh into your remote lab environment.
+.. Execute the steps outlined in the email to gain access to your lab environment.
+
+==== Access VM via `GUID Grabber`
+
+NOTE: [blue]#This section is only applicable if you are a participant in a Red Hat conferance such as Red Hat Tech Exchange (RHTE)#.
+
 . The environment can be accessed by creating a user through GuidGrabber.
 . Begin by going to http://bit.ly/rhte-guidgrabber
 +
@@ -28,6 +78,11 @@ image::images/ggs1.png[GuidGrabber Landing Page]
 * Make note of the assigned lab number.
 +
 image::images/ggshared.png[Information Page]
+
+. Notice that the GUID grabber returns a page with instructions on how to SSH into your remote virtual machine.
++
+Do so exactly as instructed by the GUID grabber.
+
 . From the image shown above the credentials to access the:
 * Client VM:
 ** username: lab-user
@@ -46,6 +101,8 @@ image::images/ggshared.png[Information Page]
 Clicking *Reset Workstation* will not stop or delete the lab environment.
 
 === Tools used in the lab
+
+** `OpenShift Container Platform v3.9`
 ** `oc` CLI tool, version 3.9
 ** `git`
 ** java JDK 1.8
@@ -56,28 +113,15 @@ Clicking *Reset Workstation* will not stop or delete the lab environment.
 ** `jq`
 ** postgresql 9.5
 
-NOTE: Given the fact you have above tools installed on your local machine, you should be able to execute the lab instructions.
 
-=== SSH to Client VM
-. Set the shell variable ASSIGNED_LAB_NUMBER
-+
-[source,sh]
-----
-$ export ASSIGNED_LAB_NUMBER=<assigned lab number>
-$ export GUID=<GUID for lab shared environment from guidgrabber>
-----
-. SSH into the clientVM
-+
-[source,sh]
-----
-ssh lab-user@clientvm$ASSIGNED_LAB_NUMBER.$GUID.rhte.opentlc.com
-----
+=== Lab Asset Source Code
 
-=== Clone Source Code
-. To help you get started, please take `git clone` of lab assets
+. To help you get started, lab assets are made available to you in Gtihub.  Please clone these lab assets as follows:
 +
 [source,sh]
 ----
+$ mkdir -p $HOME/labs
+
 $ git clone https://github.com/gpe-mw-training/app-modernization-migration-lab.git ~/labs
 ----
 
@@ -96,12 +140,12 @@ drwxrwxr-x 6 4096 Jun 19 16:47 monolith-coolstore
 -rw-rw-r-- 1   43 May 31 17:14 README.md
 drwxrwxr-x 2 4096 Jul 27 14:40 rhamt
 ----
-. Again set the shell variable `ASSIGNED_LAB_NUMBER`, this time at `clientVM`
+. Set the following shell environment variables:
 +
 [source,sh]
 ----
-$ export ASSIGNED_LAB_NUMBER=<assigned lab number>
-$ export GUID=<GUID for lab shared environment from guidgrabber>
+$ export OCP_USERNAME=developer
+$ export GUID=<course VM GUID>
 ----
 
 === Access Openshift Container Platform
@@ -109,15 +153,15 @@ $ export GUID=<GUID for lab shared environment from guidgrabber>
 +
 [source,sh]
 ----
-$ oc login https://master.$GUID.rhte.opentlc.com/ -uuser$ASSIGNED_LAB_NUMBER -pr3dh4t1!
+$ oc login https://master.$GUID.openshift.opentlc.com/ -u $OCP_USERNAME -pr3dh4t1!
 ----
-* the lab comes with a pre-created openshift project `rhte-mw-bfield-migration-constraints-user$ASSIGNED_LAB_NUMBER`
+* the lab comes with a pre-created openshift project `rhte-mw-bfield-migration-constraints-$OCP_USERNAME`
 
 WARNING: This is a special openshift project with constrined resources and will be used for <<_openshift_resources,Openshift Resources>>
 
 ==== OCP Web Console
-. Open the URL: https://master.$GUID.rhte.opentlc.com in your browser.
-* where GUID=<your shared lab guid>
+. Open the URL: https://master.$GUID.openshift.opentlc.com in your browser.
+
 . Authenticate using credentials used in above section.
 
 image::images/ocp_web_console.png[]
@@ -249,13 +293,13 @@ image:images/coolstore-monolith-ocp.png[]
 +
 [source,sh]
 ----
-$ oc login https://master.$GUID.rhte.opentlc.com -uuser$ASSIGNED_LAB_NUMBER -pr3dh4t1!
+$ oc login https://master.$GUID.rhte.opentlc.com -u developer -pr3dh4t1!
 ----
 . Create a openshift project for the deployment of monolith-coolstore.
 +
 [source,sh]
 ----
-$ oc new-project user$ASSIGNED_LAB_NUMBER-monolith-coolstore
+$ oc new-project $OCP_USERNAME-monolith-coolstore
 ----
 . Openshift comes with `out-of-box` support for `PostgreSQL`. By using this image and defining the environment variables create a database `monolith` having user credentials `jboss:jboss`
 +
@@ -632,9 +676,9 @@ This lab environment provides an out-of-the-box OpenShift project. This project 
 ----
 $ oc projects
 ----
-* Expect to see a project named `rhte-mw-bfield-migration-constraints-user$ASSIGNED_LAB_NUMBER`, where "$ASSIGNED_LAB_NUMBER" is the assigned lab number.
+* Expect to see a project named `rhte-mw-bfield-migration-constraints-$OCP_USERNAME` .
 
-. Select the `rhte-mw-bfield-migration-constraints-$ASSIGNED_LAB_NUMBER` project:
+. Select the `rhte-mw-bfield-migration-constraints-$OCP_USERNAME` project:
 +
 [source,sh]
 ----
@@ -744,7 +788,7 @@ image:images/events-details.png[]
 +
 [source,sh]
 ----
-$ oc get limits rhte-mw-bfield-migration-constraints-user$ASSIGNED_LAB_NUMBER-core-resource-limits -o yaml
+$ oc get limits rhte-mw-bfield-migration-constraints-$OCP_USERNAME-core-resource-limits -o yaml
 ----
 +
 .Sample Output
@@ -969,7 +1013,7 @@ $ git push gogs master
 +
 [source,sh]
 ----
-$ oc new-project user$ASSIGNED_LAB_NUMBER-modern-inventory-service
+$ oc new-project $OCP_USERNAME-modern-inventory-service
 ----
 
 . Review the `ClusterQuota` and `LimitRange` objects.
@@ -1293,7 +1337,7 @@ The `liveness` and `readiness` probes are defined using the Wildfly Swarm `monit
 +
 [source,sh]
 ----
-$ oc new-project user$ASSIGNED_LAB_NUMBER-modern-catalog-service
+$ oc new-project $OCP_USERNAME-modern-catalog-service
 ----
 
 . Review the `clusterquota` and `limitrange` objects.
@@ -1672,7 +1716,7 @@ Spring Boot comes with a Spring Actuator module, which helps monitor and manage 
 +
 [source,sh]
 ----
-$ export CART_PRJ=user$ASSIGNED_LAB_NUMBER-modern-cart-service
+$ export CART_PRJ=$OCP_USERNAME-modern-cart-service
 $ oc new-project $CART_PRJ
 ----
 
@@ -1708,7 +1752,7 @@ $ cd ~/labs/modern-coolstore/cart-service
 $ oc create configmap cart-service \
    --from-literal=catalog.service.url=<catalog service url>
 ----
-* Use the internal catalog service routing URL as shown here `http://catalog-service.user$ASSIGNED_LAB_NUMBER-modern-catalog-service.svc.cluster.local:8080`
+* Use the internal catalog service routing URL as shown here `http://catalog-service.$OCP_USERNAME-modern-catalog-service.svc.cluster.local:8080`
 
 ==== Deploy with Fabric8 Maven Plug-in
 
