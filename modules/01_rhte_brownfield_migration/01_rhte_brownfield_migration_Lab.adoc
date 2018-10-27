@@ -149,20 +149,29 @@ $ export GUID=<course VM GUID>
 ----
 
 === Access Openshift Container Platform
-. The ocp cluster can be accessed by running the command
-+
+
+==== OC Client utility
+
+The ocp cluster can be accessed by running the following command:
+
 [source,sh]
 ----
-$ oc login https://master.$GUID.openshift.opentlc.com/ -u $OCP_USERNAME -pr3dh4t1!
+$ oc login https://$HOSTNAME:8443 -u $OCP_USERNAME -pr3dh4t1!
 ----
-* the lab comes with a pre-created openshift project `rhte-mw-bfield-migration-constraints-$OCP_USERNAME`
 
-WARNING: This is a special openshift project with constrined resources and will be used for <<_openshift_resources,Openshift Resources>>
+The lab comes with a pre-created openshift project `rhte-mw-bfield-migration-constraints-$OCP_USERNAME`
+
+WARNING: This is a special openshift project with constrained resources and will be used for <<_openshift_resources,Openshift Resources>>
 
 ==== OCP Web Console
-. Open the URL: https://master.$GUID.openshift.opentlc.com in your browser.
+. Using your browser, open the URL retrieved from executing the following:
++
+-----
+$ echo  -en "\n\nhttps://clientvm.$GUID.openshift.opentlc.com:8443\n\n"
+-----
 
-. Authenticate using credentials used in above section.
+
+. Authenticate using the same credentials used when authenticating from the `oc` utility.
 
 image::images/ocp_web_console.png[]
 
@@ -261,7 +270,7 @@ NOTE: To run unit tests you will need local EAP installation. Due to limited res
 For participants who are interested to know more on unit-tests please check the instructions in Appendix Section:  <<_configure_monolith_eap_for_unit_tests,Configure Monolith EAP for Unit tests>>
 
 === Build Application
-. We do maven build
+. Execute a maven build of the lab assets:
 +
 [source,sh]
 ----
